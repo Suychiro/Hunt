@@ -22,6 +22,7 @@ class GameController{
 
     window.onTouchEnd.listen((TouchEvent e) {                             //Compares both Y-values
       if (firstY < lastY && (lastY - firstY) > 70) {        //Swipe Down
+        querySelector('#output').text = "Down";
         if(querySelector('#field_0_0').text.isEmpty) {
           querySelector('#field_1_0').text = "";
           querySelector('#field_2_0').text = "test";
@@ -33,6 +34,7 @@ class GameController{
         }
       }
       else if (firstY > lastY && (firstY - lastY) > 70) {   //Swipe Up
+        querySelector('#output').text = "Up";
         if(querySelector('#field_2_0').text.isEmpty) {
           querySelector('#field_0_0').text = "test";
           querySelector('#field_1_0').text = "";
