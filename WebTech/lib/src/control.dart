@@ -24,6 +24,7 @@ class GameController{
   Timer bulletTrigger;
 
   GameController() {
+    window.screen.orientation.lock("landscape");
     int firstY;
     int lastY;
     bool touchMoved = false;
@@ -68,7 +69,6 @@ class GameController{
     view.startButton.onClick.listen((_) {
       start();
       spawnEntities();
-      querySelector("#menu").hidden = true;
     });
 
     view.shootButton.onClick.listen((_) {

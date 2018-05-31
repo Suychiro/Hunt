@@ -33,6 +33,8 @@ class GameView {
 
   //creates a 3x50 field as a table and adds it to the html
   createField(Game game) {
+    shootButton.style.display = "inline";
+    querySelector("#menu").style.display = "none";
     var field = new List.generate(3, (_) => new List(50)); //multidimensional array
     String table = "";
     for (int row = 0; row < 3; row++) {
