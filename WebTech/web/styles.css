@@ -12,3 +12,9 @@ html, body {
   padding: 20px;
   text-align: center;
 }
+
+#gameField td {
+  width: 15px;
+  height: 20px;
+  border: 1px solid gray;
+}
