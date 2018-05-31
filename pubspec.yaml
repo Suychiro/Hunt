@@ -1,5 +1,5 @@
 name: WebTech
-description: An absolute bare-bones docs app.
+description: An absolute bare-bones web app.
 version: 0.0.1
 #homepage: https://www.example.com
 #author: Nightmare <email@example.com>
@@ -19,6 +19,6 @@ transformers:
 
 # Uncomment the following in sdk 1.24+ to make pub serve
 # use dartdevc (webdev.dartlang.org/tools/dartdevc).
-#docs:
+#web:
 #  compiler:
 #    debug: dartdevc
