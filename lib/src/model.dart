@@ -84,8 +84,8 @@ class Game{
   }
 
   void shootBullet(){
-   int id = bullets.length;
-   bullets.add(new Arrow(this,id,character.currentRow));
+     int id = bullets.length;
+    bullets.add(new Arrow(this,id,character.currentRow));
   }
 
   void addPoints(int points){
@@ -96,11 +96,11 @@ class Game{
 ///////////////////////////////////////////////////////////////////////
 class Character{
   int currentRow = 1;
-  int ammo = 999;
+  int ammo = 99;
   double health = 3.0;
-  bool alive;
+  bool alive = true;
   bool netOut;
-  bool noAmmo;
+  bool noAmmo = false;
   Game _game;
 
   void shootBullet(){
@@ -133,8 +133,6 @@ class Character{
   Character.On(Game _game){
     this._game = _game;
     alive = true;
-    netOut = false;
-    noAmmo = false;
   }
 }
 //////////////////////////////////////////////////////////////////////
