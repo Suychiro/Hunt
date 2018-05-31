@@ -43,16 +43,16 @@ class GameController{
 
   window.onTouchEnd.listen((TouchEvent e) {    //Compares both Y-values
     if(game.running == true && touchMoved) {
-      if (firstY < lastY && (lastY - firstY) > 70) { //Swipe Down
+      if (firstY < lastY && (lastY - firstY) > 40) { //Swipe Down
         game.character.moveDown();
       }
-      else if (firstY > lastY && (firstY - lastY) > 70) { //Swipe Up
+      else if (firstY > lastY && (firstY - lastY) > 40) { //Swipe Up
         game.character.moveUp();
       }
       firstY = 0;
       lastY = 0;
       touchMoved = false;
-      view.update(game);
+      view.updateCharacter(game);
     }
   });
 
@@ -62,13 +62,15 @@ class GameController{
 
 
    /*
-    spawnTrigger = new Timer.periodic(new Duration(seconds: 2),(_) => spawnEntities());
-    entityTrigger = new Timer.periodic(new Duration(milliseconds: 25),(_) => moveEntities());
-    bulletTrigger = new Timer.periodic(new Duration(milliseconds: 25), (_) => moveBullets());
-*/
+
+
+   */
+
     view.startButton.onClick.listen((_) {
       start();
-      spawnEntities();
+      bulletTrigger = new Timer.periodic(new Duration(milliseconds: 25), (_) => moveBullets());
+      spawnTrigger = new Timer.periodic(new Duration(seconds: 3),(_) => spawnEntities());
+      entityTrigger = new Timer.periodic(new Duration(milliseconds: 70),(_) => moveEntities());
     });
 
     view.shootButton.onClick.listen((_) {
@@ -90,23 +92,23 @@ class GameController{
    */
   void spawnEntities(){
     game.spawnEntities();
-    view.update(game);
+    view.updateEntities(game);
   }
 
   /**
    * Makes the entities move when triggered
    */
   void moveEntities(){
-    game.moveEntities(50);
-    view.update(game);
+    game.moveEntities(49);
+    view.updateEntities(game);
   }
 
   /**
    * Makes the bullets move when triggered
    */
   void moveBullets(){
-    game.moveBullets(50);
-    view.update(game);
+    game.moveBullets(49);
+    view.updateBullets(game);
   }
 
 }

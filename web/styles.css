@@ -92,21 +92,24 @@ image{
     width: 700%;
 }
 
-.arrow{
+#arrow{
     background-image: url("images/arrow.png");
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
     z-index: 9;
     display: block;
     height: 100%;
     width: 500%;
 }
 
-.enemy1 {
-    background: red !important;
-    min-height: 95%;
-    min-width: 50px;
-    background: red;
-    top: 50%;
-    position: relative;
+#enemy1 {
+    background-image: url("images/enemy1.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    z-index: 9;
+    display: block;
+    height: 90%;
+    width: 700%;
 }

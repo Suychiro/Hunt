@@ -22,23 +22,28 @@ class Game{
  }
 
 
-  void moveEntities(int maxPos){
+  void moveEntities(int maxPos) {
     entities.forEach((x) => x.move());
-    for (int i = 0; i < entities.length - 1; i++)
-    {
-      if(entities.elementAt(i).currentPos <= 0){
-       if(entities.elementAt(i).row == character.currentRow){
-         entities.elementAt(i).onTouch();
-       }
+    for (int i = 0; i < entities.length; i++) {
+      if(!entities.elementAt(i).alive){
         entities.removeAt(i);
       }
-      for(int j = 0; j< bullets.length; j++){
-        if(entities.elementAt(i).currentPos == bullets.elementAt(j).currentPos && entities.elementAt(i).row == bullets.elementAt(j).row){
-          entities.elementAt(i).onHit();
-          bullets.removeAt(j);
+      else{
+        if (entities.elementAt(i).currentPos <= 2) {
+          if (entities.elementAt(i).row == character.currentRow) {
+            entities.elementAt(i).onTouch();
+          }
+          entities.elementAt(i).alive = false;
+        }
+        else {
+          for (int j = 0; j < bullets.length; j++) {
+            if (entities.elementAt(i).currentPos == bullets.elementAt(j).currentPos && entities.elementAt(i).row == bullets.elementAt(j).row) {
+              entities.elementAt(i).onHit();
+              bullets.elementAt(j).hit = true;
+            }
+          }
         }
       }
-
     }
   }
 
@@ -46,28 +51,36 @@ class Game{
 
   void moveBullets(int maxPos){
    bullets.forEach((x) => x.move());
-    for (int i = 0; i < bullets.length - 1; i++)
+    for (int i = 0; i < bullets.length; i++)
     {
-      if(bullets.elementAt(i).currentPos > 50){
-        entities.removeAt(i);
+      if(bullets.elementAt(i).hit && bullets.elementAt(i).currentPos >= 2){
+        bullets.removeAt(i);
+        return;
       }
-      for(int j = 0; j < entities.length;j++){
-        if(entities.elementAt(i).currentPos == bullets.elementAt(j).currentPos && entities.elementAt(i).row == bullets.elementAt(j).row){
-          entities.elementAt(i).onHit();
-          bullets.removeAt(j);
+      if(bullets.elementAt(i).currentPos >= 48) {
+        bullets.elementAt(i).hit = true;
+      }
+      else{
+       for(int j = 0; j < entities.length;j++){
+         if(entities.elementAt(j).currentPos == bullets.elementAt(i).currentPos && entities.elementAt(j).row == bullets.elementAt(i).row){
+            entities.elementAt(j).onHit();
+            bullets.elementAt(i).hit = true;
+          }
         }
       }
+
     }
   }
 
   void levelUp(){}
 
   void spawnEntities() {
-   for(int row = 0; row <= rows; row++) {
-     int id = entities.length;
-
-     entities.add(new Enemy1.on(this, id, row));
-   }
+    for (int row = 0; row < rows; row++) {
+      var random = new Random();
+      if (random.nextInt(100) <= 100) {
+        entities.add(new Enemy1.on(this,row));
+      }
+    }
   }
 
   void shootBullet(){
@@ -126,7 +139,6 @@ class Character{
 }
 //////////////////////////////////////////////////////////////////////
 abstract class Entity{
-  int id;
   int row;
   int currentPos;
   int health;
@@ -144,17 +156,21 @@ abstract class Entity{
 }
 
 class Enemy1 extends Entity{
-  final health = 1;
+  int health = 1;
   final points = 1;
   final damage = 1.0;
   final speed = 1;
+  int currentPos = 48;
+  bool alive = true;
 
   void onHit(){
     health = health - 1;
+    if(health == 0){
+      alive = false;
+    }
   }
 
   void onDeath(){
-    _game.entities.remove(this);
     _game.addPoints(points);
   }
 
@@ -168,9 +184,8 @@ class Enemy1 extends Entity{
     currentPos = currentPos - speed;
   }
 
-  Enemy1.on(Game _game, int id,int row){
+  Enemy1.on(Game _game,int row){
     this._game = _game;
-    this.id = id;
     this.row = row;
   }
 }
@@ -180,11 +195,14 @@ abstract class Bullet{
   int id;
   int row;
   int currentPos;
-  void move();
   Game _game;
+  bool hit;
+  void move(){}
 }
 
 class Arrow extends Bullet{
+  int currentPos = 0;
+  bool hit = false;
 
   Arrow(Game_game,id,row){
     this._game = _game;
