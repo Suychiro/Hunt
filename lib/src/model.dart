@@ -123,7 +123,7 @@ class Character{
   }
 
   void moveDown(){
-    if(currentRow < _game.rows) {
+    if(currentRow < _game.rows-1) {
       currentRow = currentRow + 1;
     }
   }
