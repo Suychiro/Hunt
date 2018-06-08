@@ -14,9 +14,9 @@ class Game{
   List<Bullet> bullets = new List<Bullet>();
 
  Game(){
-   this.paused = false;
    this.rows = 3;
    this.level = 1;
+   this.paused = false;
    this.running = false;
    this.gameOver = false;
    this.score = 0;
