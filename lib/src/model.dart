@@ -5,6 +5,7 @@ class Game{
   int rows;
   int level;
   bool running;
+  bool paused;
   bool gameOver;
   int score;
   Character character;
@@ -13,6 +14,7 @@ class Game{
   List<Bullet> bullets = new List<Bullet>();
 
  Game(){
+   this.paused = false;
    this.rows = 3;
    this.level = 1;
    this.running = false;

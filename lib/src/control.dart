@@ -56,6 +56,20 @@ class GameController{
     }
   });
 
+    window.onKeyDown.listen((KeyboardEvent ev) {
+      if (game.running) {
+        switch (ev.keyCode) {
+          case KeyCode.UP:
+            game.character.moveUp(); break;
+          case KeyCode.DOWN:
+            game.character.moveDown(); break;
+          case KeyCode.A:
+            game.shootBullet(); break;
+        }
+        view.updateCharacter(game);
+      }
+    });
+
     /**
      * Speed of Trigger
      */
@@ -76,9 +90,23 @@ class GameController{
     view.shootButton.onClick.listen((_) {
       game.shootBullet();
     });
+
+    window.onBlur.listen((_){
+      if(game.running) {
+        game.paused = true;
+      }
+    });
+
+    window.onFocus.listen((_){
+      if(game.running) {
+        game.paused = false;
+      }
+    });
   }
 
-
+  void focusHandler(Event e) {
+    print('focus: $e');
+  }
 
 
 
