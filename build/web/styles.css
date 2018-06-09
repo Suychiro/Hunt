@@ -22,7 +22,7 @@ html, body {
 
 #buttons{
     top: 75vh;
-    left: 75%;
+    left: 75vw;
     z-index: 2;
     position: absolute;
     width: 25%;

@@ -24,10 +24,14 @@ class GameController{
   Timer bulletTrigger;
 
   GameController() {
-    window.screen.orientation.lock("landscape");
+
     int firstY;
     int lastY;
     bool touchMoved = false;
+
+    window.onLoad.listen((_){
+      window.scrollTo(0,0);
+    });
     /**
      *  Character Movement by comparing first and last Y-value (Up/Down)
      */
@@ -37,6 +41,7 @@ class GameController{
     });
 
     window.onTouchMove.listen((TouchEvent e) {                            //Determine last Y-value
+      e.preventDefault();
       lastY = e.touches.last.client.y.toInt();
       touchMoved = true;
     });
