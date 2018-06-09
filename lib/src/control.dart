@@ -48,10 +48,10 @@ class GameController{
 
   window.onTouchEnd.listen((TouchEvent e) {    //Compares both Y-values
     if(game.running == true && touchMoved) {
-      if (firstY < lastY && (lastY - firstY) > 40) { //Swipe Down
+      if (firstY < lastY && (lastY - firstY) > 30) { //Swipe Down
         game.character.moveDown();
       }
-      else if (firstY > lastY && (firstY - lastY) > 40) { //Swipe Up
+      else if (firstY > lastY && (firstY - lastY) > 30) { //Swipe Up
         game.character.moveUp();
       }
       firstY = 0;
