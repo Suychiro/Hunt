@@ -30,7 +30,7 @@ class GameController{
     bool touchMoved = false;
 
     window.onLoad.listen((_){
-      window.scrollTo(0,0);
+      window.scrollTo(0,1);
     });
     /**
      *  Character Movement by comparing first and last Y-value (Up/Down)
