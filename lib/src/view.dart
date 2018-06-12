@@ -68,9 +68,6 @@ class GameView {
               if (game.bullets.elementAt(i).currentPos > 1) {
                 querySelector('#field_' + (game.bullets.elementAt(i).row.toString()) + '_' + ((game.bullets.elementAt(i).currentPos - 1).toString())).innerHtml = "";
               }
-              else {
-                querySelector('#field_' + (game.bullets.elementAt(i).row.toString()) + '_' + ((game.bullets.elementAt(i).currentPos - 1).toString())).setInnerHtml("<div id='character'></div>");
-              }
             }
           }
           else {
@@ -102,7 +99,7 @@ class GameView {
       }
       gameField.innerHtml = table;
 
-      querySelector('#field_'+(game.rows/2).floor().toString()+'_0').setInnerHtml("<div id='character'></div>");
+      querySelector('#field_'+game.character.currentRow.toString()+'_0').setInnerHtml("<div id='character'></div>");
     }
   }
 

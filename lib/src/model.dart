@@ -6,7 +6,6 @@ class Game{
   int level;
   bool started;
   bool paused;
-  bool gameOver;
   int score;
   Character character;
   List<PickUp> pickups = new List<PickUp>();
@@ -18,7 +17,6 @@ class Game{
    this.level = 1;
    this.paused = false;
    this.started = false;
-   this.gameOver = false;
    this.score = score;
    this.character = new Character.On(this);
  }
@@ -86,7 +84,7 @@ class Game{
   }
 
   void shootBullet(){
-     int id = bullets.length;
+    int id = bullets.length;
     bullets.add(new Arrow(this,id,character.currentRow));
   }
 
@@ -94,6 +92,9 @@ class Game{
     score = score + points;
   }
 
+  void gameOver(){
+    started = false;
+  }
 }
 ///////////////////////////////////////////////////////////////////////
 class Character{
@@ -130,12 +131,15 @@ class Character{
 
   void receiveDamage(double damage){
     health = health - damage;
+    if(health == 0){
+      _game.gameOver();
+    }
   }
 
   Character.On(Game _game){
     this._game = _game;
     alive = true;
-    currentRow = (_game.rows/2).floor();
+    this.currentRow = (_game.rows/2).round();
   }
 }
 //////////////////////////////////////////////////////////////////////

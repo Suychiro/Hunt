@@ -3,7 +3,7 @@ part of hunt;
 
 
 class GameController{
-  var game = new Game(0,0);
+  var game;
   var view = new GameView();
   Map<String,Map<String,double>> levelMap = new Map<String,Map<String,double>>();
 
@@ -132,7 +132,8 @@ class GameController{
 
 
   void start(){
-    game.rows = levelMap["level"+game.level.toString()]["rows"].toInt();
+
+    game = new Game (levelMap["level1"]["rows"].toInt(),0);
     view.createField(game);
     game.started = true;
   }
