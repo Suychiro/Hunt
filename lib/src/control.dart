@@ -3,9 +3,13 @@ part of hunt;
 
 
 class GameController{
-
-  var game = new Game();
+  var game = new Game(0,0);
   var view = new GameView();
+  Map<String,Map<String,double>> levelMap = new Map<String,Map<String,double>>();
+
+  Duration spawn = new Duration(seconds: 3);
+  Duration entity = new Duration(milliseconds: 70);
+  Duration bullet = new Duration(milliseconds: 25);
 
   /**
    * Periodic trigger spawning entities
@@ -20,14 +24,29 @@ class GameController{
   /**
    * Periodic Trigger moving bullets
    */
-
   Timer bulletTrigger;
+
+
+  /**
+   * Periodic Trigger moving bullets
+   */
+  Timer levelUpTrigger;
 
   GameController() {
 
     int firstY;
     int lastY;
     bool touchMoved = false;
+
+    window.onLoad.listen((_){
+      HttpRequest.getString("LevelConfig.json").then((jsonfile){
+        levelMap = JSON.decode(jsonfile);
+      });
+
+    });
+
+
+
     /**
      *  Character Movement by comparing first and last Y-value (Up/Down)
      */
@@ -42,7 +61,7 @@ class GameController{
     });
 
   window.onTouchEnd.listen((TouchEvent e) {    //Compares both Y-values
-    if(game.running == true && touchMoved) {
+    if(game.started == true && touchMoved) {
       if (firstY < lastY && (lastY - firstY) > 30) { //Swipe Down
         game.character.moveDown();
       }
@@ -57,7 +76,7 @@ class GameController{
   });
 
     window.onKeyDown.listen((KeyboardEvent ev) {
-      if (game.running) {
+      if (game.started) {
         switch (ev.keyCode) {
           case KeyCode.UP:
             game.character.moveUp(); break;
@@ -82,9 +101,11 @@ class GameController{
 
     view.startButton.onClick.listen((_) {
       start();
-      bulletTrigger = new Timer.periodic(new Duration(milliseconds: 25), (_) => moveBullets());
-      spawnTrigger = new Timer.periodic(new Duration(seconds: 3),(_) => spawnEntities());
-      entityTrigger = new Timer.periodic(new Duration(milliseconds: 70),(_) => moveEntities());
+      var spawnSpeedMultiplier = levelMap["level1"]["spawnSpeedMultiplier"];
+      var entitySpeedMultiplier = levelMap["level1"]["entitySpeedMultiplier"];
+      bulletTrigger = new Timer.periodic(bullet, (_) => moveBullets());
+      spawnTrigger = new Timer.periodic(spawn * spawnSpeedMultiplier,(_) => spawnEntities());
+      entityTrigger = new Timer.periodic(entity * entitySpeedMultiplier,(_) => moveEntities());
     });
 
     view.shootButton.onClick.listen((_) {
@@ -92,13 +113,13 @@ class GameController{
     });
 
     window.onBlur.listen((_){
-      if(game.running) {
+      if(game.started) {
         game.paused = true;
       }
     });
 
     window.onFocus.listen((_){
-      if(game.running) {
+      if(game.started) {
         game.paused = false;
       }
     });
@@ -111,8 +132,9 @@ class GameController{
 
 
   void start(){
+    game.rows = levelMap["level"+game.level.toString()]["rows"].toInt();
     view.createField(game);
-    game.running = true;
+    game.started = true;
   }
 
   /**

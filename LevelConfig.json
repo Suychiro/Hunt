@@ -1,0 +1,12 @@
+{
+	"level1": {
+		"rows": 4,
+		"spawnSpeedMultiplier": 1,
+		"entitySpeedMultiplier": 1
+	},
+	"level2": {
+		"rows": 4,
+		"spawnSpeedMultiplier": 0.5,
+		"entitySpeedMultiplier": 0.5
+	}
+}

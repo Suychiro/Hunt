@@ -70,8 +70,9 @@ table{
     height: 97%;
     position: absolute;
 }
+
 td{
-    height: 30%;
+    height: auto;
     width: 2%;
 }
 
@@ -102,7 +103,7 @@ image{
     z-index: 9;
     display: block;
     height: 100%;
-    width: 500%;
+    width: 300%;
 }
 
 #enemy1 {

@@ -4,7 +4,7 @@ part of hunt;
 class Game{
   int rows;
   int level;
-  bool running;
+  bool started;
   bool paused;
   bool gameOver;
   int score;
@@ -13,13 +13,13 @@ class Game{
   List<Entity> entities = new List<Entity>();
   List<Bullet> bullets = new List<Bullet>();
 
- Game(){
-   this.rows = 3;
+ Game(int rows, int score){
+   this.rows = rows;
    this.level = 1;
    this.paused = false;
-   this.running = false;
+   this.started = false;
    this.gameOver = false;
-   this.score = 0;
+   this.score = score;
    this.character = new Character.On(this);
  }
 
@@ -145,6 +145,7 @@ abstract class Entity{
   int speed;
   int lootProbability;
   int points;
+  String type;
   double damage;
   bool alive;
   void onHit();
@@ -157,6 +158,7 @@ abstract class Entity{
 
 class Enemy1 extends Entity{
   int health = 1;
+  String type = "enemy1";
   final points = 1;
   final damage = 1.0;
   final speed = 1;
@@ -193,6 +195,7 @@ class Enemy1 extends Entity{
 /////////////////////////////////////////////////////////////////////
 abstract class Bullet{
   int id;
+  String type;
   int row;
   int currentPos;
   Game _game;
@@ -201,6 +204,7 @@ abstract class Bullet{
 }
 
 class Arrow extends Bullet{
+  String type = "arrow";
   int currentPos = 0;
   bool hit = false;
 
