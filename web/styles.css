@@ -89,6 +89,7 @@ image{
     background-image: url("images/character.png");
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
     z-index: 10;
     display: block;
     height: 100%;
@@ -103,7 +104,7 @@ image{
     z-index: 9;
     display: block;
     height: 100%;
-    width: 300%;
+    width: 200%;
 }
 
 #enemy1 {
@@ -114,5 +115,5 @@ image{
     z-index: 9;
     display: block;
     height: 100%;
-    width: 700%;
+    width: 500%;
 }
