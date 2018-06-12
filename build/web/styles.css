@@ -88,7 +88,7 @@ td:empty:after{
     z-index: 10;
     display: block;
     height: 100%;
-    width: 300%;
+    width: 600%;
 }
 
 #arrow{
@@ -99,7 +99,7 @@ td:empty:after{
     z-index: 9;
     display: block;
     height: 100%;
-    width: 300%;
+    width: 600%;
 }
 
 #enemy1 {
@@ -110,5 +110,5 @@ td:empty:after{
     z-index: 9;
     display: block;
     height: 100%;
-    width: 500%;
+    width: 1000%;
 }
