@@ -89,10 +89,11 @@ image{
     background-image: url("images/character.png");
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
     z-index: 10;
     display: block;
     height: 100%;
-    width: 200%;
+    width: 500%;
 }
 
 #arrow{
