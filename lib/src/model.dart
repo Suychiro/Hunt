@@ -97,7 +97,7 @@ class Game{
 }
 ///////////////////////////////////////////////////////////////////////
 class Character{
-  int currentRow = 1;
+  int currentRow;
   int ammo = 99;
   double health = 3.0;
   bool alive = true;
@@ -135,6 +135,7 @@ class Character{
   Character.On(Game _game){
     this._game = _game;
     alive = true;
+    currentRow = (_game.rows/2).floor();
   }
 }
 //////////////////////////////////////////////////////////////////////

@@ -89,11 +89,10 @@ image{
     background-image: url("images/character.png");
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
     z-index: 10;
     display: block;
     height: 100%;
-    width: 500%;
+    width: 200%;
 }
 
 #arrow{
@@ -104,7 +103,7 @@ image{
     z-index: 9;
     display: block;
     height: 100%;
-    width: 200%;
+    width: 100%;
 }
 
 #enemy1 {
@@ -115,5 +114,5 @@ image{
     z-index: 9;
     display: block;
     height: 100%;
-    width: 500%;
+    width: 300%;
 }
