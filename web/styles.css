@@ -77,14 +77,14 @@ html, body {
     width: 10%;
     height: 100%;
     left: 0%;
-    font-size:1.5rem;
+    font-size:1rem;
     position: absolute;
 }
 
 #health{
     left: 90%;
-    width: 5%;
-    height: 50%;
+    width: 10%;
+    height: 100%;
     z-index: 10;
     position: absolute;
 }
