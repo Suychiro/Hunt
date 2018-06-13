@@ -28,33 +28,22 @@ class GameView {
       for (int i = 0; i < game.entities.length; i++) {
         if (game.entities.elementAt(i).alive) {
           if (game.entities.elementAt(i).currentPos <= 49) {
-            if (game.entities.elementAt(i).currentPos >= 2) {
+            if (game.entities.elementAt(i).currentPos > 2) {
               querySelector('#field_' + (game.entities.elementAt(i).row.toString()) + '_' + (game.entities.elementAt(i).currentPos).toString()).setInnerHtml(
                   "<div id ='"+game.entities.elementAt(i).type+"'></div>");
-
               querySelector('#field_' + (game.entities.elementAt(i).row.toString()) + '_' + ((game.entities.elementAt(i).currentPos + 1).toString())).innerHtml = "";
             }
-            else if (game.entities.elementAt(i).currentPos <= 1 && game.entities.elementAt(i).row == game.character.currentRow) {
-              querySelector('#field_' + (game.bullets.elementAt(i).row.toString()) + '_' + ((game.bullets.elementAt(i).currentPos - 1).toString())).setInnerHtml("<div id='character'></div>");
-            }
-            else {
-              querySelector('#field_' + (game.bullets.elementAt(i).row.toString()) + '_' + ((game.bullets.elementAt(i).currentPos - 1).toString())).innerHtml = "";
-              querySelector('#field_' + (game.entities.elementAt(i).row.toString()) + '_' + (game.entities.elementAt(i).currentPos.toString())).innerHtml = "";
-            }
-          }
-          else {
-            querySelector('#field_' + (game.entities.elementAt(i).row.toString()) + '_' + ((game.entities.elementAt(i).currentPos + 1).toString())).innerHtml = "";
-            querySelector('#field_' + (game.entities.elementAt(i).row.toString()) + '_' + (game.entities.elementAt(i).currentPos.toString())).innerHtml = "";
           }
         }
         else{
-          querySelector('#field_' + (game.entities.elementAt(i).row.toString()) + '_' + (game.entities.elementAt(i).currentPos.toString())).innerHtml = "";
+          if(game.entities.elementAt(i).currentPos >= 2){
+            querySelector('#field_' + (game.entities.elementAt(i).row.toString()) + '_' + (game.entities.elementAt(i).currentPos.toString())).innerHtml = "";
+          }
           querySelector('#field_' + (game.entities.elementAt(i).row.toString()) + '_' + ((game.entities.elementAt(i).currentPos+1).toString())).innerHtml = "";
         }
       }
     }
   }
-
 
 
     void updateBullets(Game game) {
@@ -101,5 +90,37 @@ class GameView {
 
       querySelector('#field_'+game.character.currentRow.toString()+'_0').setInnerHtml("<div id='character'></div>");
     }
+
+  updateField(Game game) {
+    querySelector("#gameField").innerHtml = "";
+    shootButton.style.display = "inline";
+    querySelector("#menu").style.display = "none";
+    var field = new List.generate(
+        game.rows, (_) => new List(50)); //multidimensional array
+    String table = "";
+    for (int row = 0; row < game.rows; row++) {
+      table += "<tr>";
+      for (int col = 0; col < 50; col++) {
+        final assignment = field[row][col];
+        final pos = "field_${row}_${col}";
+        table += "<td id='$pos' class='$assignment'></td>";
+      }
+      table += "</tr>";
+    }
+    gameField.innerHtml = table;
+    for(int i = 0; i < game.entities.length; i++){
+      if(game.entities.elementAt(i).alive){
+        querySelector('#field_'+game.entities.elementAt(i).row.toString()+'_'+game.entities.elementAt(i).currentPos.toString()).setInnerHtml(
+          "<div id ='"+game.entities.elementAt(i).type+"'></div>");
+      }
+    }
+    for(int i = 0; i < game.bullets.length; i++){
+      if(!game.bullets.elementAt(i).hit){
+        querySelector('#field_'+game.bullets.elementAt(i).row.toString()+'_'+game.bullets.elementAt(i).currentPos.toString()).setInnerHtml(
+          "<div id ='"+game.bullets.elementAt(i).type+"'></div>");
+      }
+    }
+    querySelector('#field_'+game.character.currentRow.toString()+'_0').setInnerHtml("<div id='character'></div>");
+  }
   }
 

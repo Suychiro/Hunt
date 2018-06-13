@@ -12,17 +12,17 @@ class Game{
   List<Entity> entities = new List<Entity>();
   List<Bullet> bullets = new List<Bullet>();
 
- Game(int rows, int score){
+ Game(int rows){
    this.rows = rows;
    this.level = 1;
    this.paused = false;
    this.started = false;
-   this.score = score;
+   this.score = 0;
    this.character = new Character.On(this);
  }
 
 
-  void moveEntities(int maxPos) {
+  void moveEntities() {
     entities.forEach((x) => x.move());
     for (int i = 0; i < entities.length; i++) {
       if(!entities.elementAt(i).alive){
@@ -37,9 +37,11 @@ class Game{
         }
         else {
           for (int j = 0; j < bullets.length; j++) {
-            if (entities.elementAt(i).currentPos == bullets.elementAt(j).currentPos && entities.elementAt(i).row == bullets.elementAt(j).row) {
-              entities.elementAt(i).onHit();
-              bullets.elementAt(j).hit = true;
+            if (entities.elementAt(i).currentPos == bullets.elementAt(j).currentPos || entities.elementAt(i).currentPos < bullets.elementAt(j).currentPos) {
+              if(entities.elementAt(i).row == bullets.elementAt(j).row){
+                entities.elementAt(i).onHit();
+                bullets.elementAt(j).hit = true;
+              }
             }
           }
         }
@@ -49,7 +51,7 @@ class Game{
 
   void movePickUps(){}
 
-  void moveBullets(int maxPos){
+  void moveBullets(){
    bullets.forEach((x) => x.move());
     for (int i = 0; i < bullets.length; i++)
     {
@@ -62,22 +64,26 @@ class Game{
       }
       else{
        for(int j = 0; j < entities.length;j++){
-         if(entities.elementAt(j).currentPos == bullets.elementAt(i).currentPos && entities.elementAt(j).row == bullets.elementAt(i).row){
+         if(entities.elementAt(j).currentPos == bullets.elementAt(i).currentPos || entities.elementAt(j).currentPos < bullets.elementAt(i).currentPos+1){
+           if(entities.elementAt(j).row == bullets.elementAt(i).row){
             entities.elementAt(j).onHit();
             bullets.elementAt(i).hit = true;
           }
         }
       }
-
     }
   }
+ }
 
-  void levelUp(){}
+  void levelUp(int rows){
+   level = level + 1;
+   this.rows = rows;
+  }
 
   void spawnEntities() {
     for (int row = 0; row < rows; row++) {
       var random = new Random();
-      if (random.nextInt(100) <= 100) {
+      if (random.nextInt(100) <= 50) {
         entities.add(new Enemy1.on(this,row));
       }
     }
@@ -92,9 +98,6 @@ class Game{
     score = score + points;
   }
 
-  void gameOver(){
-    return;
-  }
 }
 ///////////////////////////////////////////////////////////////////////
 class Character{
@@ -132,7 +135,7 @@ class Character{
   void receiveDamage(double damage){
     health = health - damage;
     if(health == 0){
-      _game.gameOver();
+      alive = false;
     }
   }
 
