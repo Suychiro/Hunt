@@ -29,7 +29,7 @@ class Game{
         entities.removeAt(i);
       }
       else{
-        if (entities.elementAt(i).currentPos <= 2) {
+        if (entities.elementAt(i).currentPos == 2) {
           if (entities.elementAt(i).row == character.currentRow) {
             entities.elementAt(i).onTouch();
           }
@@ -93,7 +93,7 @@ class Game{
   }
 
   void gameOver(){
-    started = false;
+    return;
   }
 }
 ///////////////////////////////////////////////////////////////////////

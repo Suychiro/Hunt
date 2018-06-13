@@ -3,7 +3,7 @@ part of hunt;
 
 
 class GameController{
-  var game;
+  var game = new Game(0,0);
   var view = new GameView();
   Map<String,Map<String,double>> levelMap = new Map<String,Map<String,double>>();
 
@@ -113,8 +113,10 @@ class GameController{
     });
 
     window.onBlur.listen((_){
-      if(game.started) {
-        game.paused = true;
+      if(game != null) {
+        if (game.started) {
+          game.paused = true;
+        }
       }
     });
 
