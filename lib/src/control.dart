@@ -39,7 +39,7 @@ class GameController{
     bool touchMoved = false;
 
     window.onLoad.listen((_){
-      HttpRequest.getString("web/LevelConfig.json").then((jsonfile){
+      HttpRequest.getString("LevelConfig.json").then((jsonfile){
         levelMap = JSON.decode(jsonfile);
       });
 

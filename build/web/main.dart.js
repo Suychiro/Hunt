@@ -3680,7 +3680,7 @@ y=document.querySelector("#gameField")
 z=new X.e0(z,new X.ej(y),new H.U(0,null,null,null,null,null,0,[P.u,[P.f0,P.u,P.X]]),P.aA(0,0,0,0,0,3),P.aA(0,0,0,70,0,0),P.aA(0,0,0,25,0,0),null,null,null,null)
 z.cw({})
 return z}}},e7:{"^":"c:0;a",
-$1:function(a){W.eq("web/LevelConfig.json",null,null).aX(new X.e6(this.a))}},e6:{"^":"c:0;a",
+$1:function(a){W.eq("LevelConfig.json",null,null).aX(new X.e6(this.a))}},e6:{"^":"c:0;a",
 $1:function(a){this.a.c=C.D.dl(a)}},e8:{"^":"c:3;a",
 $1:function(a){var z,y
 z=this.a
