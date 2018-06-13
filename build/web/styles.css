@@ -94,8 +94,8 @@ html, body {
     background-position: center;
     background-size: contain;
     background-image: url("images/health1.png");
-    width: 160%;
-    height: 160%;
+    width: 140%;
+    height: 140%;
     position: absolute;
 }
 
@@ -104,8 +104,8 @@ html, body {
     background-position: center;
     background-size: contain;
     background-image: url("images/health2.png");
-    width: 160%;
-    height: 160%;
+    width: 140%;
+    height: 140%;
     position: absolute;
 }
 
@@ -114,8 +114,8 @@ html, body {
     background-position: center;
     background-size: contain;
     background-image: url("images/health3.png");
-    width: 160%;
-    height: 160%;
+    width: 140%;
+    height: 140%;
     position: absolute;
 }
 
