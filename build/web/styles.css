@@ -64,6 +64,60 @@ html, body {
     background-image: url("images/background.png");
     position: absolute;
 }
+#gui{
+    width:100%;
+    height:5%;
+    top: 2%;
+    left: 0%;
+    z-index: 10;
+    position: absolute;
+}
+
+#score{
+    width: 10%;
+    height: 100%;
+    left: 0%;
+    font-size:1.5rem;
+    position: absolute;
+}
+
+#health{
+    left: 90%;
+    width: 5%;
+    height: 50%;
+    z-index: 10;
+    position: absolute;
+}
+
+#health1{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("images/health1.png");
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+#health2{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("images/health2.png");
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+#health3{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("images/health3.png");
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
 
 table{
     width: 97%;

@@ -95,7 +95,7 @@ class Game{
   }
 
   void addPoints(int points){
-    score = score + points;
+    this.score = score + points;
   }
 
 }
@@ -177,6 +177,7 @@ class Enemy1 extends Entity{
     health = health - 1;
     if(health == 0){
       alive = false;
+      onDeath();
     }
   }
 
