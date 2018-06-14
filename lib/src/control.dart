@@ -56,10 +56,12 @@ class GameController{
     window.onDeviceOrientation.listen((DeviceOrientationEvent e){
       if(window.innerWidth < window.innerHeight){
         pauseGame();
+        view.showLandscape();
 
       }
       else{
         if(game.paused) {
+          view.hideLandscape();
           unpauseGame();
         }
       }
@@ -96,7 +98,7 @@ class GameController{
 
   
   window.onKeyDown.listen((KeyboardEvent ev) {
-    if (game.started) {
+    if (game.started && !game.paused) {
       switch (ev.keyCode) {
         case KeyCode.UP:
           game.character.moveUp(); break;

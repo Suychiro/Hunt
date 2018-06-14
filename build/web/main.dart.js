@@ -3790,9 +3790,12 @@ z=window.innerWidth
 y=window.innerHeight
 if(typeof z!=="number")return z.S()
 if(typeof y!=="number")return H.G(y)
-if(z<y)this.a.c6()
-else{z=this.a
-if(z.a.d)z.cf()}}},eh:{"^":"c:3;a",
+if(z<y){this.a.c6()
+z=document.querySelector("#landscape").style
+z.display="inline"}else{z=this.a
+if(z.a.d){y=document.querySelector("#landscape").style
+y.display="none"
+z.cf()}}}},eh:{"^":"c:3;a",
 $1:function(a){var z,y
 z=this.a
 z.a=0
@@ -3824,7 +3827,8 @@ x.c=!1
 z.b.cj(z.a)}}},el:{"^":"c:7;a,b",
 $1:function(a){var z,y
 z=this.b
-if(z.a.c){switch(J.dE(a)){case 38:z.a.f.c0()
+y=z.a
+if(y.c&&!y.d){switch(J.dE(a)){case 38:z.a.f.c0()
 break
 case 40:z.a.f.c_()
 break
