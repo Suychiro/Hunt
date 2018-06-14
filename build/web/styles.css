@@ -182,7 +182,7 @@ html, body {
     background-size: contain;
     background-image: url("images/landscape.png");
     left: 0%;
-    width: 70%;
+    width: 100%;
     height: 70%;
     display: none;
     z-index: 10;
