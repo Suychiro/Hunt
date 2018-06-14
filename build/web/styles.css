@@ -210,9 +210,9 @@ td:empty:after{
     background-position: center;
     background-size: contain;
     z-index: 10;
-    display: block;
-    height: 100%;
-    width: 600%;
+    position: absolute;
+    height: 128px;
+    width: 128px;
 }
 
 #arrow {
@@ -221,9 +221,9 @@ td:empty:after{
     background-position: center;
     background-size: contain;
     z-index: 9;
-    display: block;
-    height: 100%;
-    width: 600%;
+    position: absolute;
+    height: 128px;
+    width: 128px;
 }
 
 #net {
@@ -232,9 +232,9 @@ td:empty:after{
     background-position: center;
     background-size: contain;
     z-index: 9;
-    display: block;
-    height: 100%;
-    width: 400%;
+    position: absolute;
+    height: 128px;
+    width: 128px;
 }
 
 #obstacle1{
@@ -243,9 +243,9 @@ td:empty:after{
     background-position: center;
     background-size: contain;
     z-index: 9;
-    display: block;
-    height: 100%;
-    width: 600%;
+    position: absolute;
+    height: 128px;
+    width: 128px;
 }
 
 #objective1{
@@ -254,9 +254,9 @@ td:empty:after{
     background-position: center;
     background-size: contain;
     z-index: 9;
-    display: block;
-    height: 100%;
-    width: 300%;
+    position: absolute;
+    height: 128px;
+    width: 128px;
 }
 
 #enemy1 {
@@ -265,8 +265,12 @@ td:empty:after{
     background-position: center;
     background-size: contain;
     z-index: 9;
-    display: block;
-    height: 100%;
-    width: 1000%;
+    position: absolute;
+    height: 128px;
+    width: 128px;
+}
+
+.null {
+	position: relative !important;
 }
 

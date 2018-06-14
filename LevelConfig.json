@@ -7,7 +7,7 @@
 	},
 	"level2": {
 		"rows": 4,
-		"spawnSpeedMultiplier": 0.5,
+		"spawnSpeedMultiplier": 0.75,
 		"entitySpeedMultiplier": 0.5,
 		"levelDurationInSeconds": 30
 	}
