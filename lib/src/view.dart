@@ -16,6 +16,7 @@ class GameView {
 
   HtmlElement get ammo => querySelector('#ammo');
 
+  HtmlElement get netButton => querySelector("#netButton");
 
   void updateCharacter(Game game) {
     var field = new List.generate(game.rows, (_) => new List(50));
@@ -95,6 +96,7 @@ class GameView {
     void createField(Game game) {
       querySelector("#gameField").innerHtml = "";
       shootButton.style.display = "inline";
+      netButton.style.display = "inline";
       querySelector("#hud").style.display = "inline";
       querySelector("#menu").style.display = "none";
 
@@ -149,6 +151,7 @@ class GameView {
   void gameOver(Game game){
     querySelector("#hud").style.display = "none";
     shootButton.style.display = "none";
+    netButton.style.display = "none";
     querySelector("#menu").style.display = "inline";
     gameField.innerHtml = "";
     startButton.setInnerHtml("Restart");

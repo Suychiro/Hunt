@@ -69,7 +69,7 @@ class GameController{
       touchMoved = true;
     });
 
-  view.gameField.onTouchEnd.listen((TouchEvent e) {    //Compares both Y-values
+   view.gameField.onTouchEnd.listen((TouchEvent e) {    //Compares both Y-values
     if(game.started == true && touchMoved) {
       if (firstY < lastY && (lastY - firstY) > 30) { //Swipe Down
         game.character.moveDown();
@@ -98,6 +98,9 @@ class GameController{
             game.shootBullet();
           }
           break;
+        case KeyCode.S:
+          game.shootNet();
+
       }
       view.updateCharacter(game);
     }
@@ -127,6 +130,10 @@ class GameController{
 
     view.shootButton.onClick.listen((_) {
       game.shootBullet();
+    });
+
+    view.netButton.onClick.listen((_) {
+      game.shootNet();
     });
 
     window.onBlur.listen((_){

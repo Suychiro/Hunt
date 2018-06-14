@@ -39,7 +39,13 @@ class Game{
           for (int j = 0; j < bullets.length; j++) {
             if (entities.elementAt(i).currentPos == bullets.elementAt(j).currentPos || entities.elementAt(i).currentPos < bullets.elementAt(j).currentPos) {
               if(entities.elementAt(i).row == bullets.elementAt(j).row){
-                entities.elementAt(i).onHit();
+                if(bullets.elementAt(j).type == "net"){
+                  entities.elementAt(i).onCatch();
+                  character.regainNet();
+                }
+                else{
+                  entities.elementAt(i).onHit();
+                }
                 bullets.elementAt(j).hit = true;
               }
             }
@@ -61,13 +67,22 @@ class Game{
       }
       if(bullets.elementAt(i).currentPos >= 48) {
         bullets.elementAt(i).hit = true;
+        if(bullets.elementAt(i).type == "net"){
+          character.regainNet();
+        }
       }
       else{
        for(int j = 0; j < entities.length;j++){
          if(entities.elementAt(j).currentPos == bullets.elementAt(i).currentPos || entities.elementAt(j).currentPos < bullets.elementAt(i).currentPos+1){
            if(entities.elementAt(j).row == bullets.elementAt(i).row){
-            entities.elementAt(j).onHit();
-            bullets.elementAt(i).hit = true;
+             if(bullets.elementAt(i).type == "net"){
+               entities.elementAt(j).onCatch();
+               character.regainNet();
+             }
+             else{
+               entities.elementAt(j).onHit();
+             }
+             bullets.elementAt(i).hit = true;
           }
         }
       }
@@ -81,18 +96,34 @@ class Game{
   }
 
   void spawnEntities() {
+   var stones = 0;
     for (int row = 0; row < rows; row++) {
       var random = new Random();
-      if (random.nextInt(100) <= 50) {
+      var number = random.nextInt(100);
+      if (number <= 40) {
         entities.add(new Enemy1.on(this,row));
+      }
+      else if (number >= 41 && number <= 60) {
+        if(stones < rows - 1) {
+          entities.add(new Obstacle1.on(this, row));
+        }
+      }
+      else if(number >= 61 && number <= 70){
+        entities.add(new Objective1.on(this, row));
       }
     }
   }
 
   void shootBullet(){
-    int id = bullets.length;
-    bullets.add(new Arrow(this,id,character.currentRow));
+    bullets.add(new Arrow(this,character.currentRow));
     character.shootBullet();
+  }
+  void shootNet() {
+    if(character.netOut){
+      return;
+    }
+    bullets.add(new Net(this, character.currentRow));
+    character.shootNet();
   }
 
   void addPoints(int points){
@@ -136,7 +167,13 @@ class Character{
     }
   }
 
-  void shootNet(){}
+  void shootNet(){
+    netOut = true;
+  }
+
+  void regainNet(){
+    netOut = false;
+  }
 
   void moveUp(){
     if(currentRow > 0) {
@@ -181,7 +218,7 @@ abstract class Entity{
   void move();
   Game _game;
 }
-
+//-----------------------------------------------------------------//
 class Enemy1 extends Entity{
   int health = 1;
   String type = "enemy1";
@@ -203,7 +240,9 @@ class Enemy1 extends Entity{
     _game.addPoints(points);
   }
 
-  void onCatch(){}
+  void onCatch(){
+    return;
+  }
 
   void onTouch(){
     _game.character.receiveDamage(damage);
@@ -218,10 +257,82 @@ class Enemy1 extends Entity{
     this.row = row;
   }
 }
+//-----------------------------------------------------------------//
+class Obstacle1 extends Entity{
+  int health = 99;
+  String type = "obstacle1";
+  final damage = 1.0;
+  final speed = 1;
+  int currentPos = 48;
+  bool alive = true;
 
+  void onHit(){
+    return;
+  }
+
+  void onDeath(){
+    return;
+  }
+
+  void onCatch(){
+    return;
+  }
+
+  void onTouch(){
+    _game.character.receiveDamage(damage);
+  }
+
+  void move(){
+    currentPos = currentPos - speed;
+  }
+
+  Obstacle1.on(Game _game,int row){
+    this._game = _game;
+    this.row = row;
+  }
+}
+//-----------------------------------------------------------------//
+class Objective1 extends Entity{
+  int health = 1;
+  String type = "objective1";
+  final damage = 0.0;
+  final speed = 1;
+  final points = 5;
+  int currentPos = 48;
+  bool alive = true;
+
+  void onHit(){
+    health = health - 1;
+    if(health == 0){
+      alive = false;
+      onDeath();
+    }
+  }
+
+  void onDeath(){
+    return;
+  }
+
+  void onCatch(){
+    _game.addPoints(points);
+    alive = false;
+  }
+
+  void onTouch(){
+    return;
+  }
+
+  void move(){
+    currentPos = currentPos - speed;
+  }
+
+  Objective1.on(Game _game,int row){
+    this._game = _game;
+    this.row = row;
+  }
+}
 /////////////////////////////////////////////////////////////////////
 abstract class Bullet{
-  int id;
   String type;
   int row;
   int currentPos;
@@ -229,15 +340,29 @@ abstract class Bullet{
   bool hit;
   void move(){}
 }
-
+//-----------------------------------------------------------------//
 class Arrow extends Bullet{
   String type = "arrow";
   int currentPos = 0;
   bool hit = false;
 
-  Arrow(Game_game,id,row){
+  Arrow(Game_game,row){
     this._game = _game;
-    this.id = id;
+    this.row = row;
+  }
+
+  void move(){
+    currentPos = currentPos + 1;
+  }
+}
+//-----------------------------------------------------------------//
+class Net extends Bullet{
+  String type = "net";
+  int currentPos = 0;
+  bool hit = false;
+
+  Net(Game_game,row){
+    this._game = _game;
     this.row = row;
   }
 
