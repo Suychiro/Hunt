@@ -52,9 +52,7 @@ class GameController{
       HttpRequest.getString("LevelConfig.json").then((jsonfile){
         levelMap = JSON.decode(jsonfile);
       });
-
     });
-
 
     /**
      *  Character Movement by comparing first and last Y-value (Up/Down)
