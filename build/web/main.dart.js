@@ -3791,10 +3791,12 @@ y=window.innerHeight
 if(typeof z!=="number")return z.S()
 if(typeof y!=="number")return H.G(y)
 if(z<y){z=this.a
-if(!z.a.d){z.c6()
+y=z.a
+if(y.c&&!y.d){z.c6()
 z=document.querySelector("#landscape").style
 z.display="inline"}}else{z=this.a
-if(z.a.d){y=document.querySelector("#landscape").style
+y=z.a
+if(y.c&&y.d){y=document.querySelector("#landscape").style
 y.display="none"
 z.cf()}}}},eh:{"^":"c:3;a",
 $1:function(a){var z,y

@@ -55,13 +55,13 @@ class GameController{
 
     window.onDeviceOrientation.listen((DeviceOrientationEvent e){
       if(window.innerWidth < window.innerHeight){
-        if(!game.paused) {
+        if(game.started && !game.paused) {
           pauseGame();
           view.showLandscape();
         }
       }
       else{
-        if(game.paused) {
+        if(game.started && game.paused) {
           view.hideLandscape();
           unpauseGame();
         }
