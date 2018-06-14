@@ -14,6 +14,8 @@ class GameView {
 
   HtmlElement get health => querySelector('#health');
 
+  HtmlElement get ammo => querySelector('#ammo');
+
 
   void updateCharacter(Game game) {
     var field = new List.generate(game.rows, (_) => new List(50));
@@ -29,7 +31,7 @@ class GameView {
   }
 
   void updateEntities(Game game) {
-    if (game.entities.isNotEmpty) {
+    if (game.entities.isNotEmpty && game.started) {
       for (int i = 0; i < game.entities.length; i++) {
         if (game.entities.elementAt(i).alive) {
           if (game.entities.elementAt(i).currentPos <= 49) {
@@ -59,7 +61,7 @@ class GameView {
 
 
     void updateBullets(Game game) {
-      if (game.bullets.isNotEmpty) {
+      if (game.bullets.isNotEmpty && game.started) {
         for (int i = 0; i < game.bullets.length; i++) {
           if (!game.bullets.elementAt(i).hit) {
             if (game.bullets.elementAt(i).currentPos <= 47) {
@@ -77,15 +79,25 @@ class GameView {
           }
         }
       }
+      ammo.setInnerHtml("Ammo: "+ game.character.ammo.toString());
+      score.setInnerHtml("Score: " + game.score.toString());
+      if(game.character.health > 0) {
+        health.setInnerHtml("<div id='health"+ game.character.health.toString() +"'></div>");
+      }
+      else {
+        health.innerHtml = "";
+      }
     }
 
 
 
-    //creates a 3x50 field as a table and adds it to the html
-    createField(Game game) {
+
+    void createField(Game game) {
       querySelector("#gameField").innerHtml = "";
       shootButton.style.display = "inline";
+      querySelector("#hud").style.display = "inline";
       querySelector("#menu").style.display = "none";
+
       var field = new List.generate(
           game.rows, (_) => new List(50)); //multidimensional array
       String table = "";
@@ -100,14 +112,11 @@ class GameView {
       }
       gameField.innerHtml = table;
       health.setInnerHtml("<div id='health"+ game.character.health.toString() +"'></div>");
-
+      ammo.setInnerHtml("Ammo: "+ game.character.ammo.toString());
       querySelector('#field_'+game.character.currentRow.toString()+'_0').setInnerHtml("<div id='character'></div>");
     }
 
-  updateField(Game game) {
-    querySelector("#gameField").innerHtml = "";
-    shootButton.style.display = "inline";
-    querySelector("#menu").style.display = "none";
+  void updateField(Game game) {
     var field = new List.generate(
         game.rows, (_) => new List(50)); //multidimensional array
     String table = "";
@@ -135,5 +144,17 @@ class GameView {
     }
     querySelector('#field_'+game.character.currentRow.toString()+'_0').setInnerHtml("<div id='character'></div>");
   }
+
+
+  void gameOver(Game game){
+    querySelector("#hud").style.display = "none";
+    shootButton.style.display = "none";
+    querySelector("#menu").style.display = "inline";
+    gameField.innerHtml = "";
+    startButton.setInnerHtml("Restart");
+    querySelector("#gameOver").style.display = "inline";
+    querySelector("#endScore").style.display = "inline";
+    querySelector("#endScore").setInnerHtml("Score: <br>"+game.score.toString());
   }
+}
 

@@ -11,6 +11,13 @@ class GameController{
   Duration entity = new Duration(milliseconds: 70);
   Duration bullet = new Duration(milliseconds: 25);
 
+  Duration currentSpawn;
+  Duration currentEntity;
+  Duration currentLvlUp;
+  Stopwatch levelTimer = new Stopwatch();
+
+
+
   /**
    * Periodic trigger spawning entities
    */
@@ -33,10 +40,13 @@ class GameController{
   Timer levelUpTrigger;
 
   GameController() {
-
     int firstY;
     int lastY;
     bool touchMoved = false;
+    bool down = false;
+
+
+
 
     window.onLoad.listen((_){
       HttpRequest.getString("LevelConfig.json").then((jsonfile){
@@ -44,7 +54,6 @@ class GameController{
       });
 
     });
-
 
 
     /**
@@ -84,11 +93,22 @@ class GameController{
         case KeyCode.DOWN:
           game.character.moveDown(); break;
         case KeyCode.A:
-          game.shootBullet(); break;
+          if(down == false) {
+            down = true;
+            game.shootBullet();
+          }
+          break;
+        case KeyCode.S:
+          gameOver();
       }
       view.updateCharacter(game);
     }
   });
+
+    window.onKeyUp.listen((KeyboardEvent ev) {
+      down = false;
+    });
+
 
 
   view.startButton.onClick.listen((_) {
@@ -97,12 +117,14 @@ class GameController{
       if(spawnTrigger != null) spawnTrigger.cancel();
       if(entityTrigger != null) entityTrigger.cancel();
       if(levelUpTrigger != null) levelUpTrigger.cancel();
-      var spawnSpeedMultiplier = levelMap["level1"]["spawnSpeedMultiplier"];
-      var entitySpeedMultiplier = levelMap["level1"]["entitySpeedMultiplier"];
+      currentSpawn = spawn * levelMap["level1"]["spawnSpeedMultiplier"];
+      currentEntity = entity * levelMap["level1"]["entitySpeedMultiplier"];
+      currentLvlUp = new Duration (seconds: levelMap["level1"]["levelDurationInSeconds"].toInt());
       bulletTrigger = new Timer.periodic(bullet, (_) => moveBullets());
-      spawnTrigger = new Timer.periodic(spawn * spawnSpeedMultiplier,(_) => spawnEntities());
-      entityTrigger = new Timer.periodic(entity * entitySpeedMultiplier,(_) => moveEntities());
-      levelUpTrigger = new Timer.periodic(new Duration (seconds: levelMap["level1"]["levelDurationInSeconds"].toInt()), (_) => levelUp());
+      spawnTrigger = new Timer.periodic(currentSpawn,(_) => spawnEntities());
+      entityTrigger = new Timer.periodic(currentEntity,(_) => moveEntities());
+      levelUpTrigger = new Timer.periodic(currentLvlUp, (_) => levelUp());
+      levelTimer.start();
     });
 
     view.shootButton.onClick.listen((_) {
@@ -110,30 +132,36 @@ class GameController{
     });
 
     window.onBlur.listen((_){
-      if(game != null) {
         if (game.started) {
-          game.paused = true;
+          levelTimer.stop();
+          levelUpTrigger.cancel();
+          spawnTrigger.cancel();
+          entityTrigger.cancel();
+          bulletTrigger.cancel();
+          game.gamePaused();
         }
-      }
+
     });
 
     window.onFocus.listen((_){
       if(game.started) {
-        game.paused = false;
+        var levelUpTimePassed = levelTimer.elapsed.inSeconds;
+        currentLvlUp = new Duration(seconds: (levelMap["level"+game.level.toString()]["levelDurationInSeconds"].toInt() - levelUpTimePassed));
+        levelUpTrigger = new Timer.periodic(currentLvlUp, (_) => levelUp());
+        bulletTrigger = new Timer.periodic(bullet, (_) => moveBullets());
+        spawnTrigger = new Timer.periodic(currentSpawn,(_) => spawnEntities());
+        entityTrigger = new Timer.periodic(currentEntity,(_) => moveEntities());
+        game.gameResumed();
+        levelTimer.start();
       }
     });
   }
-
-  void focusHandler(Event e) {
-    print('focus: $e');
-  }
-
 
 
   void start(){
     game = new Game (levelMap["level1"]["rows"].toInt());
     view.createField(game);
-    game.started = true;
+    game.gameStart();
   }
 
   /**
@@ -165,6 +193,7 @@ class GameController{
   }
 
   void levelUp(){
+
     var nextlevel = game.level + 1;
     if(levelMap.containsKey("level"+nextlevel.toString())){
       if(levelMap["level"+nextlevel.toString()].containsKey("rows")) {
@@ -172,24 +201,33 @@ class GameController{
       }
       if(levelMap["level"+nextlevel.toString()].containsKey("spawnSpeedMultiplier")) {
         spawnTrigger.cancel();
-        var spawnSpeedMultiplier = levelMap["level"+nextlevel.toString()]["spawnSpeedMultiplier"];
-        spawnTrigger = new Timer.periodic(spawn * spawnSpeedMultiplier,(_) => spawnEntities());
+        currentSpawn = spawn * levelMap["level"+nextlevel.toString()]["spawnSpeedMultiplier"];
+        spawnTrigger = new Timer.periodic(currentSpawn,(_) => spawnEntities());
       }
       if(levelMap["level"+nextlevel.toString()].containsKey("entitySpeedMultiplier")) {
         entityTrigger.cancel();
-        var entitySpeedMultiplier = levelMap["level"+nextlevel.toString()]["entitySpeedMultiplier"];
-        entityTrigger = new Timer.periodic(entity * entitySpeedMultiplier,(_) => moveEntities());
+        currentEntity = entity * levelMap["level"+nextlevel.toString()]["entitySpeedMultiplier"];
+        entityTrigger = new Timer.periodic(currentEntity,(_) => moveEntities());
       }
       if(levelMap["level"+nextlevel.toString()].containsKey("levelDurationInSeconds")) {
         levelUpTrigger.cancel();
-        Duration levelDurationInSeconds = new Duration (seconds: levelMap["level"+nextlevel.toString()]["levelDurationInSeconds"].toInt());
-        levelUpTrigger = new Timer.periodic(levelDurationInSeconds,(_) => levelUp());
+        currentLvlUp = new Duration (seconds: levelMap["level"+nextlevel.toString()]["levelDurationInSeconds"].toInt());
+        levelUpTrigger = new Timer.periodic(currentLvlUp,(_) => levelUp());
+
       }
+      levelTimer.reset();
       view.updateField(game);
     }
   }
 
   void gameOver(){
+    spawnTrigger.cancel();
+    entityTrigger.cancel();
+    levelUpTrigger.cancel();
+    bulletTrigger.cancel();
+    levelTimer.stop();
+    view.gameOver(game);
+    game.gameOver();
 
   }
 

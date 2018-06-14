@@ -92,10 +92,27 @@ class Game{
   void shootBullet(){
     int id = bullets.length;
     bullets.add(new Arrow(this,id,character.currentRow));
+    character.shootBullet();
   }
 
   void addPoints(int points){
     this.score = score + points;
+  }
+
+  void gameStart(){
+   started = true;
+  }
+
+  void gameOver(){
+   started = false;
+  }
+
+  void gamePaused(){
+   paused = true;
+  }
+
+  void gameResumed(){
+   paused = false;
   }
 
 }
@@ -110,11 +127,12 @@ class Character{
   Game _game;
 
   void shootBullet(){
-    if(!noAmmo) {
-      ammo = ammo - 1;
-      if(ammo == 0){
-        noAmmo = true;
-      }
+    if(noAmmo) {
+      return;
+    }
+    ammo = ammo - 1;
+    if(ammo == 0){
+      noAmmo = true;
     }
   }
 
@@ -142,7 +160,7 @@ class Character{
   Character.On(Game _game){
     this._game = _game;
     alive = true;
-    this.currentRow = (_game.rows/2).round();
+    this.currentRow = (_game.rows/2).floor();
   }
 }
 //////////////////////////////////////////////////////////////////////

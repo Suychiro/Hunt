@@ -33,20 +33,44 @@ html, body {
     margin: 50px 0px 50px 0px;
     z-index: 2;
     position: absolute;
-    left: 46%;
-    top: 30%;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    left: 0%;
 }
 
 
 #start{
-  font-style: normal;
-  font-size: 2rem;
-  text-decoration: none;
-  color: black;
-  background: rgba(128, 128, 128, 0.5);
-  border: 3px solid grey;
-  border-radius: 5px;
-  display: inline;
+    font-style: normal;
+    font-size: 2rem;
+    text-decoration: none;
+    color: black;
+    background: rgba(128, 128, 128, 0.5);
+    border: 3px solid grey;
+    border-radius: 5px;
+    display: inline;
+    position: absolute;
+    text-align: center;
+    top: 30vh;
+    left: 45vw;
+}
+
+#gameOver{
+    left: 44vw;
+    top: 15vh;
+    font-size: 30px;
+    text-align: center;
+    position: absolute;
+    display: none;
+}
+
+#endScore{
+    left: 46vw;
+    top: 75vh;
+    font-size: 30px;
+    text-align: center;
+    position: absolute;
+    display: none;
 }
 
 #shoot{
@@ -64,19 +88,31 @@ html, body {
     background-image: url("images/background.png");
     position: absolute;
 }
-#gui{
+
+#hud{
     width:100%;
     height:5%;
     top: 2%;
     left: 0%;
     z-index: 10;
     position: absolute;
+    display: none;
 }
 
 #score{
     width: 10%;
     height: 100%;
     left: 0%;
+    font-size: 14pt;
+    position: absolute;
+}
+
+
+
+#ammo{
+    width: 10%;
+    height: 100%;
+    left: 40%;
     font-size: 14pt;
     position: absolute;
 }
@@ -156,6 +192,18 @@ td:empty:after{
     width: 600%;
 }
 
+#net{
+
+}
+
+#obstacle1{
+
+}
+
+#objective1{
+
+}
+
 #enemy1 {
     background-image: url("images/enemy1.png");
     background-repeat: no-repeat;
@@ -166,3 +214,4 @@ td:empty:after{
     height: 100%;
     width: 1000%;
 }
+
