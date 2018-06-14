@@ -98,8 +98,6 @@ class GameController{
             game.shootBullet();
           }
           break;
-        case KeyCode.S:
-          gameOver();
       }
       view.updateCharacter(game);
     }
