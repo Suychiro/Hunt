@@ -181,8 +181,9 @@ html, body {
     background-position: center;
     background-size: contain;
     background-image: url("images/landscape.png");
-    width: 100vw;
-    height: 100vh;
+    left: 0%;
+    width: 70%;
+    height: 70%;
     display: none;
     z-index: 10;
     position: absolute;
