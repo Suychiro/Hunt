@@ -20,6 +20,8 @@ class GameView {
 
   HtmlElement get level => querySelector("#level");
 
+  HtmlElement get landscape => querySelector("#landscape");
+
   void updateCharacter(Game game) {
     var field = new List.generate(game.rows, (_) => new List(50));
 
@@ -146,6 +148,13 @@ class GameView {
     querySelector('#field_'+game.character.currentRow.toString()+'_0').setInnerHtml("<div id='character'></div>");
   }
 
+  void showLandscape(){
+    landscape.style.display = "inline";
+  }
+
+  void hideLandscape(){
+    landscape.style.display = "none";
+  }
 
   void gameOver(Game game){
     querySelector("#hud").style.display = "none";

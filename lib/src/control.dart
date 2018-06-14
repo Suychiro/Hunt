@@ -47,11 +47,22 @@ class GameController{
 
 
 
-
     window.onLoad.listen((_){
       HttpRequest.getString("LevelConfig.json").then((jsonfile){
         levelMap = JSON.decode(jsonfile);
       });
+    });
+
+    window.onDeviceOrientation.listen((DeviceOrientationEvent e){
+      if(window.innerWidth < window.innerHeight){
+        pauseGame();
+
+      }
+      else{
+        if(game.paused) {
+          unpauseGame();
+        }
+      }
     });
 
     /**
@@ -135,31 +146,37 @@ class GameController{
     });
 
     window.onBlur.listen((_){
-        if (game.started) {
-          levelTimer.stop();
-          levelUpTrigger.cancel();
-          spawnTrigger.cancel();
-          entityTrigger.cancel();
-          bulletTrigger.cancel();
-          game.gamePaused();
-        }
-
+      pauseGame();
     });
 
     window.onFocus.listen((_){
-      if(game.started) {
-        var levelUpTimePassed = levelTimer.elapsed.inSeconds;
-        currentLvlUp = new Duration(seconds: (levelMap["level"+game.level.toString()]["levelDurationInSeconds"].toInt() - levelUpTimePassed));
-        levelUpTrigger = new Timer.periodic(currentLvlUp, (_) => levelUp());
-        bulletTrigger = new Timer.periodic(bullet, (_) => moveBullets());
-        spawnTrigger = new Timer.periodic(currentSpawn,(_) => spawnEntities());
-        entityTrigger = new Timer.periodic(currentEntity,(_) => moveEntities());
-        game.gameResumed();
-        levelTimer.start();
-      }
+      unpauseGame();
     });
   }
 
+  void pauseGame(){
+    if (game.started) {
+      levelTimer.stop();
+      levelUpTrigger.cancel();
+      spawnTrigger.cancel();
+      entityTrigger.cancel();
+      bulletTrigger.cancel();
+      game.gamePaused();
+    }
+  }
+
+  void unpauseGame(){
+    if(game.started) {
+      var levelUpTimePassed = levelTimer.elapsed.inSeconds;
+      currentLvlUp = new Duration(seconds: (levelMap["level"+game.level.toString()]["levelDurationInSeconds"].toInt() - levelUpTimePassed));
+      levelUpTrigger = new Timer.periodic(currentLvlUp, (_) => levelUp());
+      bulletTrigger = new Timer.periodic(bullet, (_) => moveBullets());
+      spawnTrigger = new Timer.periodic(currentSpawn,(_) => spawnEntities());
+      entityTrigger = new Timer.periodic(currentEntity,(_) => moveEntities());
+      game.gameResumed();
+      levelTimer.start();
+    }
+  }
 
   void start(){
     game = new Game (levelMap["level1"]["rows"].toInt());
