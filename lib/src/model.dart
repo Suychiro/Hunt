@@ -8,6 +8,7 @@ class Game{
   bool paused;
   int score;
   Character character;
+
   List<PickUp> pickups = new List<PickUp>();
   List<Entity> entities = new List<Entity>();
   List<Bullet> bullets = new List<Bullet>();

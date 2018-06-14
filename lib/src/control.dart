@@ -80,6 +80,7 @@ class GameController{
 
    view.gameField.onTouchEnd.listen((TouchEvent e) {    //Compares both Y-values
     if(game.started == true && touchMoved) {
+      if(game.paused){return;}
       if (firstY < lastY && (lastY - firstY) > 30) { //Swipe Down
         game.character.moveDown();
       }
@@ -138,10 +139,12 @@ class GameController{
     });
 
     view.shootButton.onClick.listen((_) {
+      if(game.paused){return;}
       game.shootBullet();
     });
 
     view.netButton.onClick.listen((_) {
+      if(game.paused){return;}
       game.shootNet();
     });
 
