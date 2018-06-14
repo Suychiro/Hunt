@@ -10,13 +10,15 @@ class GameView {
 
   HtmlElement get shootButton => querySelector('#shoot');
 
+  HtmlElement get netButton => querySelector("#netButton");
+
   HtmlElement get score => querySelector('#score');
 
   HtmlElement get health => querySelector('#health');
 
   HtmlElement get ammo => querySelector('#ammo');
 
-  HtmlElement get netButton => querySelector("#netButton");
+  HtmlElement get level => querySelector("#level");
 
   void updateCharacter(Game game) {
     var field = new List.generate(game.rows, (_) => new List(50));
@@ -51,13 +53,7 @@ class GameView {
         }
       }
     }
-    score.setInnerHtml("Score: " + game.score.toString());
-    if(game.character.health > 0) {
-      health.setInnerHtml("<div id='health"+ game.character.health.toString() +"'></div>");
-    }
-    else{
-      health.innerHtml= "";
-    }
+      updateHUD(game);
   }
 
 
@@ -80,6 +76,11 @@ class GameView {
           }
         }
       }
+      updateHUD(game);
+    }
+
+    void updateHUD(Game game){
+      level.setInnerHtml("Level: " + game.level.toString());
       ammo.setInnerHtml("Ammo: "+ game.character.ammo.toString());
       score.setInnerHtml("Score: " + game.score.toString());
       if(game.character.health > 0) {
@@ -89,8 +90,6 @@ class GameView {
         health.innerHtml = "";
       }
     }
-
-
 
 
     void createField(Game game) {
