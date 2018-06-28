@@ -3767,7 +3767,7 @@ this.fr.l()
 this.dy.l()
 this.id=P.aU(P.L(0,0,0,0,0,this.z),new X.em(this))
 this.fr=P.H(new P.J(C.b.F(this.ch.a*2)),new X.en(this))
-this.dy=P.H(new P.J(C.b.F(this.Q.a*2)),new X.eo(this))}if(this.a.cx){this.e=!0
+this.dy=P.H(new P.J(C.b.F(this.Q.a*1.5)),new X.eo(this))}if(this.a.cx){this.e=!0
 z=this.dx
 y=z.b
 if(y==null){y=$.x.$0()

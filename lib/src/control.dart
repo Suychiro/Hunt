@@ -380,7 +380,7 @@ class GameController{
       spawnTrigger.cancel();
       slowDownEndTrigger = new Timer(new Duration(seconds: slowedGameDuration), () => disableSlow());
       entityTrigger = new Timer.periodic((currentEntity * 2),(_) => moveEntities());
-      spawnTrigger = new Timer.periodic((currentSpawn * 2) ,(_) => spawnEntities());
+      spawnTrigger = new Timer.periodic((currentSpawn * 1.5) ,(_) => spawnEntities());
     }
     if(game.doublePointsPickedUp){
       doubleInUse = true;
