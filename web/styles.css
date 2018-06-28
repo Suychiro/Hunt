@@ -40,10 +40,12 @@ html, body {
     text-align: left;
     border: 3px solid grey;
     width: 25%;
-    height: 75%;
+    height: 95%;
     margin-left: 5%;
     padding-left: 1%;
-    top: 5%;
+    top: 2.5%;
+    position: absolute;
+    z-index: 10;
 }
 
 #menu{
