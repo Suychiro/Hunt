@@ -1,14 +1,33 @@
 {
+	"durations": {
+		"slowDownDurationInSeconds": 30,
+		"doublePointsDurationInSeconds": 30
+	},
 	"level1": {
 		"rows": 3,
 		"spawnSpeedMultiplier": 1,
 		"entitySpeedMultiplier": 1,
 		"levelDurationInSeconds": 20
 	},
+
 	"level2": {
 		"rows": 4,
-		"spawnSpeedMultiplier": 0.75,
-		"entitySpeedMultiplier": 0.5,
+		"spawnSpeedMultiplier": 0.85,
+		"entitySpeedMultiplier": 0.85,
+		"levelDurationInSeconds": 20
+	},
+
+	"level3": {
+		"rows": 4,
+		"spawnSpeedMultiplier": 0.70,
+		"entitySpeedMultiplier": 0.75,
+		"levelDurationInSeconds": 30
+	},
+
+	"level4": {
+		"rows": 5,
+		"spawnSpeedMultiplier": 0.60,
+		"entitySpeedMultiplier": 0.60,
 		"levelDurationInSeconds": 30
 	}
 }

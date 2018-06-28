@@ -1,21 +1,84 @@
 part of hunt;
 
 
+/**
+ * A [GameController] object registers several handlers
+ * to grab interactions of a user with a [Game] and translate
+ * them into valid [Game] actions.
+ *
+ * Furthermore a [GameController] object triggers the
+ * movements of all [Entity] / [Bullet] / [PickUp]  objects and the [Character] object of the
+ *[Game].
+ *
+ * Necessary updates of the view are delegated to a [View] object
+ * to inform the user about changing [Game] states.
+ */
 
 class GameController{
+
+  /**
+   * Referencing the to be controlled model.
+   */
   var game = new Game(0);
+
+  /**
+   * Referencing the presenting view.
+   */
   var view = new GameView();
+
+  /**
+   * Used to save the content of the JSON-File
+   */
   Map<String,Map<String,double>> levelMap = new Map<String,Map<String,double>>();
 
-  Duration spawn = new Duration(seconds: 3);
-  Duration entity = new Duration(milliseconds: 70);
+  /**
+   * Used to check if the Slow-Power-Up is active
+   */
+  bool slowInUse = false;
+
+  /**
+   * Used to check if the double-points-Power is active
+   */
+  bool doubleInUse = false;
+
+  /**
+   *  Defines the base spawn-frequency
+   */
+  Duration spawn = new Duration(seconds: 5);
+
+  /**
+   * Defines the base speed of the entities and Power-Ups
+   */
+  Duration entity = new Duration(milliseconds: 100);
+
+  /**
+   * Defines the base speed of the bullets
+   */
   Duration bullet = new Duration(milliseconds: 25);
 
+  /**
+   * Used to save the Duration of the Power-Ups
+   */
+  int doublePointsDuration;
+  int slowedGameDuration;
+
+  /**
+   * Used to save the current:
+   * - spawn-frequency
+   * - entity-speed
+   * - the time it takes for a level up
+   */
   Duration currentSpawn;
   Duration currentEntity;
   Duration currentLvlUp;
-  Stopwatch levelTimer = new Stopwatch();
 
+  /**
+   * Stopwatches used to save the past time for
+   * the Power-Ups and the Level-Up
+   */
+  Stopwatch levelTimer = new Stopwatch();
+  Stopwatch slowDownTimer = new Stopwatch();
+  Stopwatch doublePointsTimer = new Stopwatch();
 
 
   /**
@@ -39,6 +102,16 @@ class GameController{
    */
   Timer levelUpTrigger;
 
+  /**
+   * Trigger to end the Double-Points-PowerUp
+   */
+  Timer doublePointsEndTrigger;
+
+  /**
+   * Trigger to end the Slow-Down-PowerUp
+   */
+  Timer slowDownEndTrigger;
+
   GameController() {
     int firstY;
     int lastY;
@@ -46,13 +119,18 @@ class GameController{
     bool down = false;
 
 
-
+    /**
+     * Used to save the content of the JSON - LevelConfig file in a Map onLoad
+     */
     window.onLoad.listen((_){
       HttpRequest.getString("LevelConfig.json").then((jsonfile){
         levelMap = JSON.decode(jsonfile);
       });
     });
 
+    /**
+     * Used to determine the device orientation and pause if its in portrait mode
+     */
     window.onDeviceOrientation.listen((DeviceOrientationEvent e){
       if(window.innerWidth < window.innerHeight){
         if(game.started && !game.paused) {
@@ -66,6 +144,10 @@ class GameController{
           unpauseGame();
         }
       }
+    });
+
+    window.onDoubleClick.listen((Event e){
+      e.preventDefault();
     });
 
     /**
@@ -84,10 +166,10 @@ class GameController{
    view.gameField.onTouchEnd.listen((TouchEvent e) {    //Compares both Y-values
     if(game.started == true && touchMoved) {
       if(game.paused){return;}
-      if (firstY < lastY && (lastY - firstY) > 30) { //Swipe Down
+      if (firstY < lastY && (lastY - firstY) > 10) { //Swipe Down
         game.character.moveDown();
       }
-      else if (firstY > lastY && (firstY - lastY) > 30) { //Swipe Up
+      else if (firstY > lastY && (firstY - lastY) > 10) { //Swipe Up
         game.character.moveUp();
       }
       firstY = 0;
@@ -97,7 +179,9 @@ class GameController{
     }
   });
 
-  
+    /**
+     * Implements controlls for the computer.
+     */
   window.onKeyDown.listen((KeyboardEvent ev) {
     if (game.started && !game.paused) {
       switch (ev.keyCode) {
@@ -119,13 +203,21 @@ class GameController{
     }
   });
 
+    /**
+     * Sets the check-value to false when button is released
+     *
+     * Used to hinder multiple arrows by clicking once
+     */
     window.onKeyUp.listen((KeyboardEvent ev) {
       down = false;
     });
 
-
-
-  view.startButton.onClick.listen((_) {
+    /**
+     * Starts the game if the button is triggered.
+     *
+     * Sets and starts all relevant timers and sets the durations of the PowerUps
+     */
+    view.startButton.onClick.listen((_) {
       start();
       if(bulletTrigger != null) bulletTrigger.cancel();
       if(spawnTrigger != null) spawnTrigger.cancel();
@@ -139,29 +231,55 @@ class GameController{
       entityTrigger = new Timer.periodic(currentEntity,(_) => moveEntities());
       levelUpTrigger = new Timer.periodic(currentLvlUp, (_) => levelUp());
       levelTimer.start();
+      doublePointsDuration = levelMap["durations"]["doublePointsDurationInSeconds"].toInt();
+      slowedGameDuration = levelMap["durations"]["slowDownDurationInSeconds"].toInt();
     });
 
+    /**
+     * Shoot an arrow if the button is triggered.
+     */
     view.shootButton.onClick.listen((_) {
       if(game.paused){return;}
       game.shootBullet();
     });
 
+    /**
+     * Shoots the net if the Button is triggered.
+     */
     view.netButton.onClick.listen((_) {
       if(game.paused){return;}
       game.shootNet();
     });
 
+    /**
+     * Pauses the game when the Webpage/App isn't focued
+     */
     window.onBlur.listen((_){
       pauseGame();
     });
 
+    /**
+     * Unpauses the game when the Webpage/App gets focused
+     */
     window.onFocus.listen((_){
       unpauseGame();
     });
   }
 
+  /**
+   * Pauses the game.
+   * Stops the Stopwatches and cancels the timers.
+   */
   void pauseGame(){
     if (game.started) {
+      if(slowInUse){
+        slowDownTimer.stop();
+        slowDownEndTrigger.cancel();
+      }
+      if(doubleInUse){
+        doublePointsTimer.stop();
+        doublePointsEndTrigger.cancel();
+      }
       levelTimer.stop();
       levelUpTrigger.cancel();
       spawnTrigger.cancel();
@@ -171,8 +289,22 @@ class GameController{
     }
   }
 
+  /**
+   * Unpauses the game.
+   * Sets all timers and starts the stopwatches again.
+   */
   void unpauseGame(){
     if(game.started) {
+      if(slowInUse){
+        var passedSlowTime = slowDownTimer.elapsed.inSeconds;
+        slowDownEndTrigger = new Timer(new Duration(seconds:(slowedGameDuration - passedSlowTime)), () => disableSlow());
+        slowDownTimer.start();
+      }
+      if(doubleInUse){
+        var passedDoubleTime = doublePointsTimer.elapsed.inSeconds;
+        doublePointsEndTrigger = new Timer(new Duration(seconds:(doublePointsDuration - passedDoubleTime)), () => disableDouble());
+        doublePointsTimer.start();
+      }
       var levelUpTimePassed = levelTimer.elapsed.inSeconds;
       currentLvlUp = new Duration(seconds: (levelMap["level"+game.level.toString()]["levelDurationInSeconds"].toInt() - levelUpTimePassed));
       levelUpTrigger = new Timer.periodic(currentLvlUp, (_) => levelUp());
@@ -184,6 +316,9 @@ class GameController{
     }
   }
 
+  /**
+   * Sets the model, creates the field accordingly and tell the model to start.
+   */
   void start(){
     game = new Game (levelMap["level1"]["rows"].toInt());
     view.createField(game);
@@ -191,35 +326,107 @@ class GameController{
   }
 
   /**
-   * Makes the game spawn entities when triggered
+   * Makes the game spawn entities
    */
   void spawnEntities(){
     game.spawnEntities();
-    view.updateEntities(game);
+    //view.updateEntities(game);
+    view.update(game);
   }
 
   /**
-   * Makes the entities move when triggered
+   * Makes the entities and pickUps move.
+   * Checks if PickUps got picked up
    */
   void moveEntities(){
     game.moveEntities();
     if(!game.character.alive){
       gameOver();
+      return;
     }
-    view.updateEntities(game);
+    //view.updateEntities(game);
+    checkPowerUps();
+    game.movePickUps();
+    //view.updatePickUps(game);
+    view.update(game);
+  }
+
+  /**
+   * Makes the bullets move
+   */
+  void moveBullets(){
+    game.moveBullets();
+    //view.updateBullets(game);
+    view.update(game);
+  }
+
+
+  /**
+   * Checks if Power-Ups got picked up and activates/refreshes them
+   */
+  void checkPowerUps(){
+    if(game.getSlowedGamePickedUp()){
+      slowInUse = true;
+      slowDownTimer.stop();
+      slowDownTimer.reset();
+      slowDownTimer.start();
+      game.slowDownPickedUpProcessed();
+      if(slowDownEndTrigger != null){
+        if(slowDownEndTrigger.isActive){
+          slowDownEndTrigger.cancel();
+        }
+      }
+      entityTrigger.cancel();
+      spawnTrigger.cancel();
+      slowDownEndTrigger = new Timer(new Duration(seconds: slowedGameDuration), () => disableSlow());
+      entityTrigger = new Timer.periodic((currentEntity * 1.5),(_) => moveEntities());
+      spawnTrigger = new Timer.periodic((currentSpawn *1.5) ,(_) => spawnEntities());
+    }
+    if(game.doublePointsPickedUp){
+      doubleInUse = true;
+      doublePointsTimer.stop();
+      doublePointsTimer.reset();
+      doublePointsTimer.start();
+      game.doublePickedUpProcessed();
+      if(doublePointsEndTrigger != null){
+        if(doublePointsEndTrigger.isActive){
+          doublePointsEndTrigger.cancel();
+        }
+      }
+      doublePointsEndTrigger = new Timer(new Duration(seconds: doublePointsDuration), () => disableDouble());
+    }
 
   }
 
   /**
-   * Makes the bullets move when triggered
+   * Disables the double-points-PowerUp
    */
-  void moveBullets(){
-    game.moveBullets();
-    view.updateBullets(game);
+  void disableDouble(){
+    game.doublePointsPowerExpire();
+    doublePointsTimer.stop();
+    doubleInUse = false;
   }
 
-  void levelUp(){
+  /**
+   * Disables the slow-PowerUp
+   */
+  void disableSlow(){
+    slowDownTimer.stop();
+    entityTrigger.cancel();
+    spawnTrigger.cancel();
+    entityTrigger = new Timer.periodic(currentEntity,(_) => moveEntities());
+    spawnTrigger = new Timer.periodic(currentSpawn,(_) => spawnEntities());
+    game.slowDownPowerExpire();
+    slowInUse = false;
+  }
 
+
+  /**
+   * Handles Level-Up
+   *
+   * Sets the new amount of rows and sets the new timers(Function-Triggers) .
+   */
+  void levelUp(){
     var nextlevel = game.level + 1;
     if(levelMap.containsKey("level"+nextlevel.toString())){
       if(levelMap["level"+nextlevel.toString()].containsKey("rows")) {
@@ -246,12 +453,24 @@ class GameController{
     }
   }
 
+  /**
+   * Handles Game Over
+   *
+   * Cancels all timers and starts the GameOver functions of the model and view.
+   */
   void gameOver(){
     spawnTrigger.cancel();
     entityTrigger.cancel();
     levelUpTrigger.cancel();
     bulletTrigger.cancel();
+    if(slowDownEndTrigger != null){
+      slowDownEndTrigger.cancel();
+    }
+    if(doublePointsEndTrigger != null){
+      doublePointsEndTrigger.cancel();
+    }
     levelTimer.stop();
+    levelTimer.reset();
     view.gameOver(game);
     game.gameOver();
 
