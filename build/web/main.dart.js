@@ -4252,6 +4252,8 @@ y=z.querySelector("#hud").style
 y.display="inline"
 y=z.querySelector("#menu").style
 y.display="none"
+y=z.querySelector("#instructions").style
+y.display="none"
 x=P.bG(a.a,new X.eP(),!0,null)
 for(w="",v=0;v<a.a;++v){w+="<tr>"
 for(u=0;u<50;++u){if(v>=x.length)return H.c(x,v)

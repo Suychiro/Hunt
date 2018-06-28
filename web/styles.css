@@ -34,6 +34,18 @@ html, body {
     height: 50%;
 }
 
+#instructions{
+    font-size: 1rem;
+    background: rgba(128,128,128,0.3);
+    text-align: left;
+    border: 3px solid grey;
+    width: 25%;
+    height: 75%;
+    margin-left: 5%;
+    padding-left: 1%;
+    top: 5%;
+}
+
 #menu{
     margin: 50px 0px 50px 0px;
     z-index: 2;

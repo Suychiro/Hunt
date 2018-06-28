@@ -237,6 +237,7 @@ class GameView {
     netButton.style.display = "inline";
     querySelector("#hud").style.display = "inline";
     querySelector("#menu").style.display = "none";
+    querySelector("#instructions").style.display = "none";
 
     var field = new List.generate(
         game.rows, (_) => new List(50)); //multidimensional array
