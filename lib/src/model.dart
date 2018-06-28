@@ -177,10 +177,10 @@ class Game{
     else if (number == 51) {
       pickUps.add(new HealthPickUp.On(this,row,currentPos));
     }
-    else if(number >= 52 && number <= 56){
+    else if(number >= 52 && number <= 54){
         pickUps.add(new DoublePointsPickUp.On(this,row,currentPos));
     }
-    else if(number >= 57 && number <= 61){
+    else if(number >= 55 && number <= 57){
         pickUps.add(new SlowPickUp.On(this,row,currentPos));
     }
   }

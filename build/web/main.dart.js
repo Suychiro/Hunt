@@ -3766,8 +3766,8 @@ if(z!=null)if(z.c!=null)z.l()
 this.fr.l()
 this.dy.l()
 this.id=P.aU(P.L(0,0,0,0,0,this.z),new X.em(this))
-this.fr=P.H(new P.J(C.b.F(this.ch.a*1.5)),new X.en(this))
-this.dy=P.H(new P.J(C.b.F(this.Q.a*1.5)),new X.eo(this))}if(this.a.cx){this.e=!0
+this.fr=P.H(new P.J(C.b.F(this.ch.a*2)),new X.en(this))
+this.dy=P.H(new P.J(C.b.F(this.Q.a*2)),new X.eo(this))}if(this.a.cx){this.e=!0
 z=this.dx
 y=z.b
 if(y==null){y=$.x.$0()
@@ -4156,12 +4156,12 @@ u=new X.eV("healthPickUp",1,null,null,!1,null,null)
 u.e=z
 u.a=y
 u.b=x
-v.push(u)}else if(w>=52&&w<=56){v=z.r
+v.push(u)}else if(w>=52&&w<=54){v=z.r
 u=new X.e6("doublePickUp",null,null,!1,null,null)
 u.e=z
 u.a=y
 u.b=x
-v.push(u)}else if(w>=57&&w<=61){v=z.r
+v.push(u)}else if(w>=55&&w<=57){v=z.r
 u=new X.fS("slowPickUp",null,null,!1,null,null)
 u.e=z
 u.a=y
