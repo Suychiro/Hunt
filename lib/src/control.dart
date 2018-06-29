@@ -153,17 +153,17 @@ class GameController{
     /**
      *  Character Movement by comparing first and last Y-value (Up/Down)
      */
-    view.gameField.onTouchStart.listen((TouchEvent e){                            //Determine first Y-value
+    view.swipeArea.onTouchStart.listen((TouchEvent e){                            //Determine first Y-value
       firstY = 0;
       firstY = e.touches.first.client.y.toInt();
     });
 
-    view.gameField.onTouchMove.listen((TouchEvent e) {                            //Determine last Y-value
+    view.swipeArea.onTouchMove.listen((TouchEvent e) {                            //Determine last Y-value
       lastY = e.touches.last.client.y.toInt();
       touchMoved = true;
     });
 
-   view.gameField.onTouchEnd.listen((TouchEvent e) {    //Compares both Y-values
+   view.swipeArea.onTouchEnd.listen((TouchEvent e) {    //Compares both Y-values
     if(game.started == true && touchMoved) {
       if(game.paused){return;}
       if (firstY < lastY && (lastY - firstY) > 10) { //Swipe Down

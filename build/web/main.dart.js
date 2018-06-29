@@ -3718,7 +3718,7 @@ this.dy=P.H(this.Q,new X.eM(this))
 this.fr=P.H(this.ch,new X.eN(this))
 this.a.d=!1
 z.a6(0)}},
-a2:function(){var z,y,x
+a2:function(){var z,y,x,w
 this.a.a2()
 if(!this.a.f.d){this.dy.l()
 this.fr.l()
@@ -3732,23 +3732,26 @@ z=this.cy
 y=z.b
 if(y==null){y=$.x.$0()
 z.b=y}z.a=y==null?$.x.$0():y
-z=this.a
-y=document
-x=y.querySelector("#hud").style
+z=this.b
+y=this.a
+x=z.c.style
 x.display="none"
-x=y.querySelector("#shoot").style
-x.display="none"
-x=y.querySelector("#netButton").style
-x.display="none"
-x=y.querySelector("#menu").style
-x.display="inline"
-J.ad(this.b.a,"")
-J.v(y.querySelector("#start"),"Restart")
-x=y.querySelector("#gameOver").style
-x.display="inline"
-x=y.querySelector("#endScore").style
-x.display="inline"
-J.v(y.querySelector("#endScore"),"Score: <br>"+C.a.h(z.e))
+x=document
+w=x.querySelector("#hud").style
+w.display="none"
+w=x.querySelector("#shoot").style
+w.display="none"
+w=x.querySelector("#netButton").style
+w.display="none"
+w=x.querySelector("#menu").style
+w.display="inline"
+J.ad(z.a,"")
+J.v(x.querySelector("#start"),"Restart")
+z=x.querySelector("#gameOver").style
+z.display="inline"
+z=x.querySelector("#endScore").style
+z.display="inline"
+J.v(x.querySelector("#endScore"),"Score: <br>"+C.a.h(y.e))
 this.a.c=!1
 return}this.dw()
 this.a.e2()
@@ -3819,7 +3822,7 @@ z=W.P
 W.D(window,"load",new X.eq(this),!1,z)
 W.D(window,"deviceorientation",new X.er(this),!1,W.b1)
 W.D(window,"dblclick",new X.es(),!1,z)
-y=this.b.a
+y=this.b.c
 x=J.r(y)
 w=x.gca(y)
 W.D(w.a,w.b,new X.ev(a),!1,H.I(w,0))
@@ -3840,27 +3843,28 @@ W.D(y.a,y.b,new X.eC(this),!1,H.I(y,0))
 W.D(window,"blur",new X.et(this),!1,z)
 W.D(window,"focus",new X.eu(this),!1,z)},
 m:{
-eg:function(){var z,y,x,w,v,u,t,s,r,q,p,o,n
+eg:function(){var z,y,x,w,v,u,t,s,r,q,p,o,n,m
 z=X.cl(0)
 y=document
 x=y.querySelector("#gameField")
 w=y.querySelector("#score")
-v=y.querySelector("#health")
-u=y.querySelector("#ammo")
-t=y.querySelector("#level")
-s=y.querySelector("#landscape")
-r=y.querySelector("#doublePower")
+v=y.querySelector("#swipeArea")
+u=y.querySelector("#health")
+t=y.querySelector("#ammo")
+s=y.querySelector("#level")
+r=y.querySelector("#landscape")
+q=y.querySelector("#doublePower")
 y=y.querySelector("#slowPower")
-q=P.L(0,0,0,0,0,5)
-p=P.L(0,0,0,100,0,0)
-o=P.L(0,0,0,25,0,0)
-n=$.ai
-if(n==null){H.bN()
-n=$.ay
-$.ai=n}if(n==null){H.bN()
-n=$.ay
-$.ai=n}if(n==null){H.bN()
-$.ai=$.ay}z=new X.ef(z,new X.eO(x,w,v,u,t,s,r,y),new H.Z(0,null,null,null,null,null,0,[P.u,[P.fy,P.u,P.a1]]),!1,!1,q,p,o,null,null,null,null,null,new P.bP(0,0),new P.bP(0,0),new P.bP(0,0),null,null,null,null,null,null)
+p=P.L(0,0,0,0,0,5)
+o=P.L(0,0,0,100,0,0)
+n=P.L(0,0,0,25,0,0)
+m=$.ai
+if(m==null){H.bN()
+m=$.ay
+$.ai=m}if(m==null){H.bN()
+m=$.ay
+$.ai=m}if(m==null){H.bN()
+$.ai=$.ay}z=new X.ef(z,new X.eO(x,w,v,u,t,s,r,q,y),new H.Z(0,null,null,null,null,null,0,[P.u,[P.fy,P.u,P.a1]]),!1,!1,p,o,n,null,null,null,null,null,new P.bP(0,0),new P.bP(0,0),new P.bP(0,0),null,null,null,null,null,null)
 z.cQ({})
 return z}}},eq:{"^":"b:0;a",
 $1:function(a){W.eX("LevelConfig.json",null,null).b9(new X.el(this.a))}},el:{"^":"b:0;a",
@@ -3873,10 +3877,10 @@ if(typeof y!=="number")return H.G(y)
 if(z<y){z=this.a
 y=z.a
 if(y.c&&!y.d){z.cc()
-z=z.b.f.style
+z=z.b.r.style
 z.display="inline"}}else{z=this.a
 y=z.a
-if(y.c&&y.d){y=z.b.f.style
+if(y.c&&y.d){y=z.b.r.style
 y.display="none"
 z.cl()}}}},es:{"^":"b:18;",
 $1:function(a){J.dP(a)}},ev:{"^":"b:3;a",
@@ -4196,7 +4200,7 @@ z.Q=!0
 z.cx=!0}},fS:{"^":"aQ;k:f>,a,b,c,d,e",
 aA:function(){var z=this.e
 z.z=!0
-z.ch=!0}},eO:{"^":"a;a,b,c,d,e,f,r,x",
+z.ch=!0}},eO:{"^":"a;a,b,c,d,e,f,r,x,y",
 cn:function(a){var z,y
 P.bG(a.a,new X.eQ(),!0,null)
 for(z=0;z<a.a;++z)if(a.f.a===z){y="#field_"+C.a.h(z)+"_0"
@@ -4227,17 +4231,17 @@ J.v(w,"<div id ='"+v.gk(v)+"'></div>")}}x="#field_"+C.a.h(a.f.a)+"_0"
 J.v(document.querySelector(x),"<div id='character'></div>")
 this.co(a)},
 co:function(a){var z,y
-J.v(this.e,"Level: "+C.a.h(a.b))
-J.v(this.d,"Ammo: "+C.a.h(a.f.b))
+J.v(this.f,"Level: "+C.a.h(a.b))
+J.v(this.e,"Ammo: "+C.a.h(a.f.b))
 J.v(this.b,"Score: "+C.a.h(a.e))
 z=a.f.c
-y=this.c
+y=this.d
 if(z>0)J.v(y,"<div id='health"+C.a.h(z)+"'></div>")
 else J.ad(y,"")
-z=this.r
+z=this.x
 if(a.Q){z=z.style
 z.display="inline"}else{z=z.style
-z.display="none"}z=this.x
+z.display="none"}z=this.y
 if(a.z){z=z.style
 z.display="inline"}else{z=z.style
 z.display="none"}},
@@ -4247,6 +4251,8 @@ J.ad(z.querySelector("#gameField"),"")
 y=z.querySelector("#shoot").style
 y.display="inline"
 y=z.querySelector("#netButton").style
+y.display="inline"
+y=this.c.style
 y.display="inline"
 y=z.querySelector("#hud").style
 y.display="inline"
@@ -4259,8 +4265,8 @@ for(w="",v=0;v<a.a;++v){w+="<tr>"
 for(u=0;u<50;++u){if(v>=x.length)return H.c(x,v)
 t=J.o(x[v],u)
 w+="<td id='"+("field_"+v+"_"+u)+"' class='"+H.d(t)+"'></td>"}w+="</tr>"}J.ad(this.a,w)
-J.v(this.c,"<div id='health"+C.a.h(a.f.c)+"'></div>")
-J.v(this.d,"Ammo: "+C.a.h(a.f.b))
+J.v(this.d,"<div id='health"+C.a.h(a.f.c)+"'></div>")
+J.v(this.e,"Ammo: "+C.a.h(a.f.b))
 J.v(z.querySelector("#field_"+C.a.h(a.f.a)+"_0"),"<div id='character'></div>")},
 ei:function(a){var z,y,x,w,v,u,t,s,r
 z=P.bG(a.a,new X.eR(),!0,null)

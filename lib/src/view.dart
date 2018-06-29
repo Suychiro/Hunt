@@ -32,6 +32,13 @@ class GameView {
    */
   final score = querySelector('#score');
 
+
+  /**
+   * Element with id '#swipeArea' of the DOM tree.
+   * Used as an area to swipe on.
+   */
+  final swipeArea = querySelector("#swipeArea");
+
   /**
    * Element with id '#health' of the DOM tree.
    * Used to represent the [Character]-health
@@ -235,9 +242,11 @@ class GameView {
     querySelector("#gameField").innerHtml = "";
     shootButton.style.display = "inline";
     netButton.style.display = "inline";
+    swipeArea.style.display = "inline";
     querySelector("#hud").style.display = "inline";
     querySelector("#menu").style.display = "none";
     querySelector("#instructions").style.display = "none";
+
 
     var field = new List.generate(
         game.rows, (_) => new List(50)); //multidimensional array
@@ -316,6 +325,7 @@ class GameView {
    * Show the score of the previous game.
    */
   void gameOver(Game game){
+    swipeArea.style.display = "none";
     querySelector("#hud").style.display = "none";
     shootButton.style.display = "none";
     netButton.style.display = "none";

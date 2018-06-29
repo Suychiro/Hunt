@@ -20,6 +20,16 @@ html, body {
     position: relative;
 }
 
+#swipeArea{
+    width:75%;
+    height: 100%;
+    top: 0%;
+    left: 0%;
+    position:absolute;
+    z-index: 9;
+    display: none;
+}
+
 #output {
     padding: 20px;
     text-align: center;
@@ -28,7 +38,7 @@ html, body {
 #buttons{
     top: 55%;
     left: 75%;
-    z-index: 10;
+    z-index: 9;
     position: absolute;
     width: 25%;
     height: 50%;
@@ -40,12 +50,13 @@ html, body {
     text-align: left;
     border: 3px solid grey;
     width: 25%;
-    height: 95%;
+    height: 90%;
     margin-left: 5%;
     padding-left: 1%;
-    top: 2.5%;
+    top: 5%;
     position: absolute;
     z-index: 10;
+    overflow: auto;
 }
 
 #menu{
@@ -224,6 +235,7 @@ html, body {
 }
 
 #landscape{
+    background: rgba(128,128,128,0.3);
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -256,7 +268,7 @@ td:empty:after{
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    z-index: 10;
+    z-index: 8;
     top: 5%;
     left: 5%;
     position: absolute;
@@ -269,7 +281,7 @@ td:empty:after{
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    z-index: 9;
+    z-index: 8;
     top: 5%;
     left: 5%;
     position: absolute;
@@ -282,7 +294,7 @@ td:empty:after{
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    z-index: 9;
+    z-index: 8;
     top: 5%;
     left: 5%;
     position: absolute;
@@ -295,7 +307,7 @@ td:empty:after{
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    z-index: 9;
+    z-index: 8;
     top: 5%;
     left: 5%;
     position: absolute;
@@ -308,7 +320,7 @@ td:empty:after{
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    z-index: 9;
+    z-index: 8;
     top: 5%;
     left: 5%;
     position: absolute;
@@ -321,7 +333,7 @@ td:empty:after{
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    z-index: 9;
+    z-index: 8;
     top: 5%;
     left: 5%;
     position: absolute;
@@ -334,7 +346,7 @@ td:empty:after{
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    z-index: 8;
+    z-index: 7;
     top: 5%;
     left: 5%;
     position: absolute;
@@ -347,7 +359,7 @@ td:empty:after{
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    z-index: 8;
+    z-index: 7;
     top: 5%;
     left: 5%;
     position: absolute;
@@ -360,7 +372,7 @@ td:empty:after{
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    z-index: 8;
+    z-index: 7;
     top: 5%;
     left: 5%;
     position: absolute;
@@ -373,7 +385,7 @@ td:empty:after{
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    z-index: 8;
+    z-index: 7;
     top: 5%;
     left: 5%;
     position: absolute;
