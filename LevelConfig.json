@@ -11,23 +11,44 @@
 	},
 
 	"level2": {
-		"rows": 4,
-		"spawnSpeedMultiplier": 0.85,
-		"entitySpeedMultiplier": 0.85,
+		"rows": 3,
+		"spawnSpeedMultiplier": 0.90,
+		"entitySpeedMultiplier": 0.90,
 		"levelDurationInSeconds": 20
 	},
 
 	"level3": {
 		"rows": 4,
-		"spawnSpeedMultiplier": 0.70,
-		"entitySpeedMultiplier": 0.75,
+		"spawnSpeedMultiplier": 0.90,
+		"entitySpeedMultiplier": 0.90,
 		"levelDurationInSeconds": 30
 	},
 
 	"level4": {
-		"rows": 5,
+		"rows": 4,
+		"spawnSpeedMultiplier": 0.80,
+		"entitySpeedMultiplier": 0.80,
+		"levelDurationInSeconds": 30
+	},
+
+	"level5": {
+		"rows": 4,
+		"spawnSpeedMultiplier": 0.70,
+		"entitySpeedMultiplier": 0.70,
+		"levelDurationInSeconds": 30
+	},
+
+	"level6": {
+		"rows": 4,
 		"spawnSpeedMultiplier": 0.60,
 		"entitySpeedMultiplier": 0.60,
+		"levelDurationInSeconds": 30
+	},
+
+	"level7": {
+		"rows": 5,
+		"spawnSpeedMultiplier": 0.60,
+		"entitySpeedMultiplier": 0.55,
 		"levelDurationInSeconds": 30
 	}
 }
