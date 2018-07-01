@@ -166,7 +166,7 @@ class GameController{
    view.swipeArea.onTouchEnd.listen((TouchEvent e) {    //Compares both Y-values
     if(game.started == true && touchMoved) {
       if(game.paused){return;}
-      if (firstY < lastY && (lastY - firstY) > 10) { //Swipe Down
+      if (firstY < lastY && (lastY - firstY) > 10) {  //Swipe Down
         game.character.moveDown();
       }
       else if (firstY > lastY && (firstY - lastY) > 10) { //Swipe Up
